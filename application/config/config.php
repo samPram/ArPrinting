@@ -23,7 +23,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/ArPrinting/';
+$baseUrl = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+
+$config['base_url'] = $baseUrl;
 
 /*
 |--------------------------------------------------------------------------
