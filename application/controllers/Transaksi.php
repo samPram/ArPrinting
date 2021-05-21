@@ -8,6 +8,7 @@ class Transaksi extends CI_Controller
 		parent::__construct();
 		$this->load->model('M_transaksi');
 		$this->load->model('M_produk');
+		$this->load->model('M_view_transaksi');
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
 	}
@@ -58,6 +59,35 @@ class Transaksi extends CI_Controller
 		$data['list']  = $this->M_produk->tampil_data(['id_produk' => $id]);
 		echo json_encode($data['list']);
 		return;
+	}
+
+	public function getAllTransaction()
+	{
+		if ($this->session->userdata('level') == 'Admin') {
+			$data['data'] = $this->M_view_transaksi->tampil_data();
+			$this->load->view('template/header');
+			$this->load->view('template/topbar');
+			$this->load->view('template/sidebar');
+			$this->load->view('admin/v_transaksi', $data);
+			$this->load->view('template/footer');
+		} else {
+			$this->load->view('404_page');
+		}
+	}
+
+	public function detailTransaction($id = null)
+	{
+		$data = [
+			'id_transaksi' => $id
+		];
+		if ($this->session->userdata('level') == 'Admin') {
+			$data['detail'] = $this->M_view_transaksi->tampil_detail($data);
+
+			echo json_encode($data['detail']);
+			return;
+		} else {
+			$this->load->view('404_page');
+		}
 	}
 
 	public function add()

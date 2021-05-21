@@ -8,7 +8,7 @@
                 <li class="text-muted menu-title">Menu Utama</li>
 
                 <li class="has_sub">
-                    <a href="<?php echo base_url('/welcome'); ?>" class="waves-effect"><i class="ti-home"></i>
+                    <a href="<?php echo base_url('/Home_admin'); ?>" class="waves-effect"><i class="ti-home"></i>
                         <span> Beranda </span> <span></span></a>
 
                 </li>
@@ -22,7 +22,7 @@
                 </li>
 
                 <li class="has_sub">
-                    <a href="<?php echo base_url('/admin/TransaksiController'); ?>" class="waves-effect"><i class="ti-money"></i> Transaksi Penjualan</a>
+                    <a href="<?php echo base_url('/Transaksi/getAllTransaction'); ?>" class="waves-effect"><i class="ti-money"></i> Transaksi Penjualan</a>
 
                 </li>
 

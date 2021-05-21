@@ -134,6 +134,33 @@
 
         //     });
         // });
+
+        $('#btn-detailTransaksi').on('click', function(e) {
+            let id = $(this).data('id');
+            $.ajax({
+                type: 'GET',
+                url: `<?= base_url(); ?>Transaksi/detailTransaction/${id}`,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data)
+                    let i = 1;
+                    let row = '';
+                    data.forEach(element => {
+                        row += `<tr>
+                                    <td>${i++}</td>
+                                    <td>${element.nama_produk}</td>
+                                    <td>${element.harga}</td>
+                                    <td>${element.jumlah}</td>
+                                    <td>${element.sub_total}</td>
+                                    <td><a data-href="" class='on-default default-row btn btn-danger' data-toggle='modal' data-target='#delete-modal'>
+                          <i class='ti-trash'></i></a></td>
+                                </tr>`;
+                    });
+                    $('.data-detail').append(row);
+                    $(`#btn-detailTransaksi[data-id='${id}']`).attr('disabled', true);
+                }
+            });
+        })
     </script>
 
     </body>

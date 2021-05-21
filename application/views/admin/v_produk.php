@@ -37,7 +37,7 @@
                                         <td><?= $i; ?></td>
                                         <td><?= $val['nama_produk']; ?></td>
                                         <td><?= $val['satuan']; ?></td>
-                                        <td><?= $val['harga']; ?></td>
+                                        <td>Rp. <?= number_format($val['harga'], 2, ',', '.'); ?></td>
                                         <td><?= $val['quantity']; ?></td>
                                         <td>
 

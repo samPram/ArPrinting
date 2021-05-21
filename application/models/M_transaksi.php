@@ -2,10 +2,15 @@
 
 class M_transaksi extends CI_Model
 {
-	function tampil_data()
+	function tampil_data($data)
 	{
-		// $this->db->select('*');
-		// $this->db->from('');
+		$this->db->select('*');
+		$this->db->from('transaksi');
+		if ($data['id_transaksi']) $this->db->where('id_transaksi', $data['id_transaksi']);
+
+		$this->db->order_by('id_transaksi', 'DESC');
+		if ($data['id_transaksi']) return $this->db->get()->row_array();
+		else return $this->db->get()->result_array();
 	}
 
 	function tambah_data($data)
