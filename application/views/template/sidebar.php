@@ -17,7 +17,7 @@
                     <a href="javascript:void(0);" class="waves-effect"><i class="ti-dashboard"></i> <span> Master</span> <span class="menu-arrow"></span> </a>
                     <ul class="list-unstyled">
                         <li><a href="<?php echo base_url('/Produk'); ?>">Produk</a></li>
-                        <li><a href="<?php echo base_url('/admin/UserController'); ?>">User</a></li>
+                        <li><a href="<?php echo base_url('/User'); ?>">User</a></li>
                     </ul>
                 </li>
 
@@ -27,7 +27,7 @@
                 </li>
 
                 <li class="has_sub">
-                    <a href="<?php echo base_url('/admin/LaporanController'); ?>" class="waves-effect"><i class="ti-file"></i> Laporan Penjualan</a>
+                    <a href="<?php echo base_url('/Laporan'); ?>" class="waves-effect"><i class="ti-file"></i> Laporan Penjualan</a>
 
                 </li>
 

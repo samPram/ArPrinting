@@ -87,12 +87,53 @@
                 affixesStay: false,
                 precision: 0
             });
+
+            $("#bayar").maskMoney({
+                thousands: '.',
+                decimal: ',',
+                affixesStay: false,
+                precision: 0
+            });
+
+            $("#kembalian").maskMoney({
+                thousands: '.',
+                decimal: ',',
+                affixesStay: false,
+                precision: 0
+            });
         });
         TableManageButtons.init();
 
         $('#delete-modal').on('show.bs.modal', function(e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
         });
+
+        // $('.btnAddCard').on('click', function(e) {
+        //     let id = $(this).data('id');
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: `<?= base_url(); ?>Transaksi/list_card/${id}`,
+        //         dataType: "json",
+        //         success: function(data) {
+        //             let list = `<tr>
+        //                             <td>${data.nama_produk}</td>
+        //                             <td>${data.harga}</td>
+        //                             <td>
+        //                                 <div class="form-group">
+        //                                 <input type="number" class="form-control" id="quantity" name="quantity" required>
+        //                                 </div>
+        //                             </td>
+        //                             <td></td>
+        //                             <td></td>
+        //                         </tr>`
+        //             // console.log(data);
+        //             $('.list-card').append(list);
+        //             e.preventDefault();
+        //             $(`.btnAddCard[data-id='${id}']`).attr('disabled', true)
+        //         }
+
+        //     });
+        // });
     </script>
 
     </body>

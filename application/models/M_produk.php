@@ -14,6 +14,16 @@ class M_produk extends CI_Model
 		else return  $this->db->get()->result_array();
 	}
 
+	public function total_data()
+	{
+		return $this->db->get('ms_produk')->num_rows();
+	}
+
+	public function tampil_list($limit, $offset)
+	{
+		return $this->db->get('ms_produk', $limit, $offset)->result_array();
+	}
+
 	function tambah_data($data)
 	{
 		$this->db->insert('ms_produk', $data);
