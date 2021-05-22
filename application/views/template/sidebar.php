@@ -16,7 +16,7 @@
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="ti-dashboard"></i> <span> Master</span> <span class="menu-arrow"></span> </a>
                     <ul class="list-unstyled">
-                        <li><a href="<?php echo base_url('/Produk'); ?>">Produk</a></li>
+                        <li><a href="<?php echo base_url('/Barang'); ?>">Produk</a></li>
                         <li><a href="<?php echo base_url('/User'); ?>">User</a></li>
                     </ul>
                 </li>
@@ -27,11 +27,12 @@
                 </li>
 
                 <li class="has_sub">
-                    <a href="<?php echo base_url('/Laporan'); ?>" class="waves-effect"><i class="ti-file"></i> Laporan Penjualan</a>
-
+                    <a href="javascript:void(0);" class="waves-effect"><i class="ti-file"></i> <span> Laporan</span> <span class="menu-arrow"></span> </a>
+                    <ul class="list-unstyled">
+                        <li><a href="<? ?>">Kartu Persedian Barang</a></li>
+                        <li><a href="<? ?>">Laporan Penjualan</a></li>
+                    </ul>
                 </li>
-
-
             </ul>
             <div class="clearfix"></div>
         </div>

@@ -3,15 +3,15 @@
     <div class="card-box table-responsive">
       <div class="row m-b-30">
         <div class="col-sm-12">
-          <h4 class="m-t-0 header-title"><b>DATA PRODUK</b></h4>
+          <h4 class="m-t-0 header-title"><b>DATA BARANG</b></h4>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-12">
-          <form action="<?= base_url(); ?>Produk/update/<?= $data['id_produk']; ?>" method="POST">
+          <form action="<?= base_url(); ?>Barang/update/<?= $data['id_produk']; ?>" method="POST">
             <div class="form-group">
-              <label for="id_produk">Id Produk</label>
+              <label for="id_produk">Id Barang</label>
               <input type="text" class="form-control" id="id_produk" name="id_produk" value="<?= $data['id_produk']; ?>" disabled>
             </div>
             <div class="form-group">
@@ -28,16 +28,7 @@
                                       endif; ?>>Buah</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="harga">Harga Satuan (Rp.)</label>
-              <input type="text" class="form-control harga" id="harga" name="harga" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" value="<?= $data['harga']; ?>">
-              <?= form_error('harga', '<small class="text-danger pl-3">', '</small>'); ?>
-            </div>
-            <div class="form-group">
-              <label for="jumlah">Jumlah (Qty)</label>
-              <input type="number" class="form-control" id="jumlah" name="jumlah" value="<?= $data['quantity']; ?>">
-              <?= form_error('jumlah', '<small class="text-danger pl-3">', '</small>'); ?>
-            </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
