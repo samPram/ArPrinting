@@ -23,6 +23,14 @@ class Barang_masuk extends CI_Controller
     return;
   }
 
+  public function showFirst($id = null)
+  {
+    $data = ['id_produk' => $id];
+    $result['data'] = $this->M_barang_masuk->tampil_firs($data);
+    echo json_encode($result['data']);
+    return;
+  }
+
   public function add()
   {
     if ($this->session->userdata('level') == 'Admin') {

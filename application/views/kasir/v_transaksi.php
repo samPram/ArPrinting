@@ -2,16 +2,26 @@
     <div class="content">
         <div class="container">
             <div class="row">
+                <div class="col-sm-12">
+                    <?php if ($this->session->flashdata('message')) {
+                        echo $this->session->flashdata('message');
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-4">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title"><b>Form Transaksi</b></h4>
-                        <form action="" method="POST">
+                        <form method="POST" id="formTransaksi">
                             <table class="table">
                                 <thead>
+                                    <th>Id</th>
                                     <th>Nama Barang</th>
                                     <th>Harga</th>
                                     <th>Qty</th>
                                     <th>Sub Total</th>
+                                    <th>Aksi</th>
                                 </thead>
                                 <tbody class="list-card">
 
@@ -19,7 +29,8 @@
                             </table>
                             <div class="form-group">
                                 <label for="total">Total Bayar (Rp.)</label>
-                                <input type="text" class="form-control" id="total" name="total" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" disabled>
+                                <!-- <input type="text" class="form-control" id="total" name="total" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" disabled> -->
+                                <input type="number" class="form-control" id="total" name="total" value="0" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="bayar">Bayar (Rp.)</label>
@@ -27,9 +38,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="kembalian">Kembalian (Rp.)</label>
-                                <input type="text" class="form-control" id="kembalian" name="kembalian" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" disabled>
+                                <input type="text" class="form-control" id="kembalian" name="kembalian" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" readonly>
                             </div>
-                            <button type="submit" class="btn btn-default">Submit</button>
+                            <button id="btnAddTransaction" type="button" class="btn btn-default">Submit</button>
                         </form>
                     </div>
 
@@ -39,7 +50,7 @@
                         <h4 class="m-t-0 header-title"><b>List Barang</b></h4>
                         <form>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="barangSearch" placeholder="Email">
+                                <input type="text" class="form-control" id="barangSearch" placeholder="Search">
                             </div>
                         </form>
 
@@ -49,16 +60,24 @@
                                     <div class="panel panel-info text-center">
                                         <!-- <div class="panel-heading">Panel Heading</div> -->
                                         <div class="panel-body">
-                                            <?= $val['nama_produk']; ?> <span class="badge"><?= $val['quantity']; ?></span>
-                                            <p><b>Rp. <?= number_format($val['harga'], 2, ',', '.'); ?></b></p>
+                                            <p id="namaProduk" data-data="<?= $val['nama_produk']; ?>" data-id="<?= $val['id_produk']; ?>">
+                                                <?= $val['nama_produk']; ?>
+                                            </p>
+                                            <span class="badge" id="qtyProduk" data-data="<?= $val['jumlah_masuk']; ?>" data-id="<?= $val['id_produk']; ?>">
+                                                <?= $val['jumlah_masuk']; ?>
+                                            </span>
+                                            <p id="hargaProduk" data-id="<?= $val['id_produk']; ?>" data-data="<?= $val['harga_masuk']; ?>"><?= $val['harga_masuk']; ?>
+                                            </p>
                                         </div>
-                                        <div class="panel-footer"><a href="<?= base_url(); ?>Transaski/<?= $val['id_produk']; ?>" class="btn btn-primary btnAddCard" data-id='<?= $val['id_produk']; ?>' <?php if ($val['quantity'] == 0) : echo 'disabled';
-                                                                                                                                                                                                            endif; ?>>Tambah</a></div>
+                                        <div class="panel-footer">
+                                            <button class="btn btn-primary btnAddCard" data-idmasuk="<?= $val['id_masuk']; ?>" data-id='<?= $val['id_produk']; ?>' <?php if ($val['jumlah_masuk'] == 0) : echo 'disabled';
+                                                                                                                                                                    endif; ?>>Tambah</button>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <?= $this->pagination->create_links(); ?>
+
 
 
 
@@ -144,25 +163,20 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-
-
-
-    <script type="text/javascript">
-        function SetInput(id_transaksi, pelanggan, tanggal) {
-            document.getElementById('id_transaksi').value = id_transaksi;
-            document.getElementById('pelanggan').value = pelanggan;
-            document.getElementById('tanggal').value = tanggal;
-
-        }
-
-        function SetInput1(id_transaksi) {
-            document.getElementById('id_transaksi1').value = id_transaksi;
-        }
-
-        function ResetInput(id_transaksi, pelanggan, tanggal) {
-            document.getElementById('id_transaksi').value = "";
-            document.getElementById('pelanggan').value = "";
-            document.getElementById('tanggal').value = "";
-
-        }
-    </script>
+    <div id="modal-removeCard" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" style="width:55%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLabel">Konfirmasi</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah anda yakin ingin menghapus list ini ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Tidak</button>
+                    <a class="btn btn-success waves-effect waves-light btn-ok" data-dismiss="modal">Ya</a>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -120,19 +120,19 @@
                 precision: 0
             });
 
-            $("#bayar").maskMoney({
-                thousands: '.',
-                decimal: ',',
-                affixesStay: false,
-                precision: 0
-            });
+            // $("#bayar").maskMoney({
+            //     thousands: '.',
+            //     decimal: ',',
+            //     affixesStay: false,
+            //     precision: 0
+            // });
 
-            $("#kembalian").maskMoney({
-                thousands: '.',
-                decimal: ',',
-                affixesStay: false,
-                precision: 0
-            });
+            // $("#kembalian").maskMoney({
+            //     thousands: '.',
+            //     decimal: ',',
+            //     affixesStay: false,
+            //     precision: 0
+            // });
 
             $('#btnAddBarangMasuk').attr('disabled', true);
 
@@ -140,32 +140,14 @@
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
 
-            // $('.btnAddCard').on('click', function(e) {
-            //     let id = $(this).data('id');
-            //     $.ajax({
-            //         type: 'GET',
-            //         url: `<?= base_url(); ?>Transaksi/list_card/${id}`,
-            //         dataType: "json",
-            //         success: function(data) {
-            //             let list = `<tr>
-            //                             <td>${data.nama_produk}</td>
-            //                             <td>${data.harga}</td>
-            //                             <td>
-            //                                 <div class="form-group">
-            //                                 <input type="number" class="form-control" id="quantity" name="quantity" required>
-            //                                 </div>
-            //                             </td>
-            //                             <td></td>
-            //                             <td></td>
-            //                         </tr>`
-            //             // console.log(data);
-            //             $('.list-card').append(list);
-            //             e.preventDefault();
-            //             $(`.btnAddCard[data-id='${id}']`).attr('disabled', true)
-            //         }
-
-            //     });
-            // });
+            $('#modal-removeCard').on('show.bs.modal', function(e) {
+                // $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+                let id = $(e.relatedTarget).data('id');
+                $(this).find('.btn-ok').on('click', function(e) {
+                    $(`tr[data-id='${id}']`).empty();
+                    $(`.btnAddCard[data-id='${id}']`).attr('disabled', false)
+                });
+            });
 
             $('#btn-detailTransaksi').on('click', function(e) {
                 let id = $(this).data('id');
@@ -261,8 +243,110 @@
                 $('#total-masuk').attr('value', total);
             })
 
+            // $(`p[id='hargaProduk']`).each(function(i) {
+            //     // console.log($(this).data('id'))
+            //     let id_produk = $(this).data('id')
+            //     $.ajax({
+            //         url: `<?= base_url(); ?>Barang_masuk/showFirst/${id_produk}`,
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             let firstPrice = data.filter(element => {
+            //                 return element.jumlah_masuk > 0
+            //             });
+            //             console.log(firstPrice)
+            //             $(`#hargaProduk[data-id='${id_produk}']`).attr('data-data', `${firstPrice[0].harga_masuk}`)
+            //             $(`#hargaProduk[data-id='${id_produk}']`).attr('data-idmasuk', `${firstPrice[0].id_masuk}`)
+            //             $(`#hargaProduk[data-id='${id_produk}']`).append(`<b>Rp. ${firstPrice[0].harga_masuk}</b>`)
+            //         }
+            //     })
+            // })
+            // console.log()
+
+            $('.btnAddCard').on('click', function(e) {
+                let id = $(this).data('id');
+                let id_masuk = $(this).data('idmasuk');
+                // console.log(id)
+                let namaBarang = $(`#namaProduk[data-id='${id}']`).data('data');
+                let hargaBarang = $(`#hargaProduk[data-id='${id}']`).data('data');
+
+                let row = `
+                <tr data-id='${id}'>
+                                        <td>
+                                            ${id}
+                                            <input type='hidden' name='id_produk[]' value='${id}'>
+                                            <input type='hidden' name='id_masuk[]' value='${id_masuk}'>
+                                        </td>
+                                         <td>${namaBarang}</td>
+                                         <td>${hargaBarang}<input type='hidden' name='harga_keluar[]' value='${hargaBarang}'></td>
+                                         <td>
+                                             <div class="form-group">
+                                             <input type="number" class="form-control" id="jumlah-keluar" data-id="${id}" name="jumlah_keluar[]" onkeyup='coba(${id})' required>
+                                             </div>
+                                         </td>
+                                         <td>
+                                            <div class="form-group">
+                                             <input type="number" class="form-control" id="total_harga_keluar" data-id="${id}" name="total_harga_keluar[]"  required readonly>
+                                             </div>
+                                         </td>
+                                         <td>
+                                            <button id='btnRemoveCard' data-id='${id}' class='on-default default-row btn btn-danger' data-toggle='modal' data-target='#modal-removeCard'>
+                                                <i class='ti-trash'></i>
+                                            </button>
+                                         </td>
+                                     </tr>
+                `;
+                $('.list-card').append(row);
+                $(`.btnAddCard[data-id='${id}']`).attr('disabled', true)
+            });
+
+            $('#btnAddTransaction').click(function(e) {
+                // console.log();
+                var data = $('#formTransaksi').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: `<?= base_url(); ?>Transaksi/add`,
+                    data: data,
+                    success: function(data) {
+                        // console.log('success')
+                        window.location.href = data;
+                    }
+                })
+            });
+
         });
         TableManageButtons.init();
+
+        function coba(id) {
+            // console.log(id)
+            let jumlahKeluar = $(`#jumlah-keluar[data-id='${id}']`).val();
+            let hargaKeluar = $(`#hargaProduk[data-id='${id}']`).data('data');
+            let reuslt = jumlahKeluar * hargaKeluar;
+            // console.log(jumlahKeluar)
+            let subHarga = $(`#total_harga_keluar[data-id='${id}']`).attr('value', `${reuslt}`)
+            // let current = parseInt($('#total').val());
+            // let totalHarga = current + parseInt(subHarga.val());
+            // console.log(totalHarga)
+            // $('#total').attr('value', totalHarga);
+            totalHarga();
+        }
+
+        function totalHarga() {
+            let result = 0;
+            $(`input[id='total_harga_keluar']`).each(function(i) {
+                let subHarga = parseInt($(this).val());
+                result += subHarga
+                // console.log(subHarga)
+            })
+            $('#total').attr('value', result);
+        }
+
+        $('#bayar').keyup(function(e) {
+            let totalBayar = $('#total').val();
+            let bayar = $(this).val();
+            let result = bayar - totalBayar;
+            $('#kembalian').attr('value', result)
+        })
     </script>
 
     </body>
