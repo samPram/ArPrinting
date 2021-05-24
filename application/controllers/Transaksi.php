@@ -92,6 +92,13 @@ class Transaksi extends CI_Controller
 		}
 	}
 
+	public function getCountAll()
+	{
+		$data['data'] = $this->M_transaksi->tampil_getCountAll();
+		echo json_encode($data['data']);
+		return;
+	}
+
 	public function add()
 	{
 		if ($this->session->userdata('level') == 'Kasir') {

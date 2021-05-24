@@ -24,6 +24,13 @@ class M_barang extends CI_Model
 		return $this->db->get('ms_produk', $limit, $offset)->result_array();
 	}
 
+	public function tampil_getCountAll()
+	{
+		$this->db->select('COUNT(id_produk) as total');
+		$this->db->from('ms_produk');
+		return $this->db->get()->row_array();
+	}
+
 	function tambah_data($data)
 	{
 		$this->db->insert('ms_produk', $data);

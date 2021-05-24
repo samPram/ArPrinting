@@ -57,6 +57,9 @@
     <script src="<?= base_url(); ?>assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
     <script src="<?= base_url(); ?>assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" type="text/javascript"></script>
 
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+
+
     <!-- datatabales -->
     <script src="<?php echo base_url(); ?>assets/pages/datatables.init.js"></script>
 
@@ -65,6 +68,7 @@
 
     <!-- form-advance -->
     <script type="text/javascript" src="<?= base_url(); ?>assets/pages/jquery.form-advanced.init.js"></script>
+
 
     <script src="<?php echo base_url(); ?>assets/js/jquery.core.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jquery.app.js"></script>
@@ -330,21 +334,6 @@
                     success: function(data) {
                         let row = ``;
                         let i = 1;
-                        // console.log(data)
-                        // if (data.length == 0) {
-                        //     row = `<tr>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //         <td></td>
-                        //     </tr>`;
-                        //     $('#data-view').html(row);
-                        // }
                         data.forEach(element => {
                             row += `
                             <tr>
@@ -430,6 +419,42 @@
                     }
                 })
             })
+
+            $.ajax({
+                url: `<?= base_url(); ?>User/getCountAll`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#totalUser').text(data.total);
+                }
+            });
+
+            $.ajax({
+                url: `<?= base_url(); ?>Transaksi/getCountAll`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#totalTransaksi').text(data.total);
+                }
+            });
+
+            $.ajax({
+                url: `<?= base_url(); ?>Barang/getCountAll`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#totalBarang').text(data.total);
+                }
+            });
+
+            $.ajax({
+                url: `<?= base_url(); ?>Return_barang/getCountAll`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#totalRetur').text(data.total);
+                }
+            });
 
         });
         TableManageButtons.init();

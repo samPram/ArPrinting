@@ -48,6 +48,13 @@ class Return_barang extends CI_Controller
     return;
   }
 
+  public function getCountAll()
+  {
+    $data['data'] = $this->M_return_barang->tampil_getCountAll();
+    echo json_encode($data['data']);
+    return;
+  }
+
   public function add()
   {
     $id_keluar = $this->input->post('id_keluar', true);

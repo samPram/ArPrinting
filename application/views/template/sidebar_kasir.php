@@ -9,7 +9,7 @@
                         <li class="text-muted menu-title">Menu Utama</li>
 
                         <li class="has_sub">
-                            <a href="<?php echo base_url('welcome'); ?>" class="waves-effect"><i class="ti-home"></i>
+                            <a href="<?php echo base_url('Home_kasir'); ?>" class="waves-effect"><i class="ti-home"></i>
                                 <span> Beranda </span> <span></span></a>
 
                         </li>
@@ -17,7 +17,7 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="ti-dashboard"></i> <span> Master</span> <span class="menu-arrow"></span> </a>
                             <ul class="list-unstyled">
-                                <li><a href="<?php echo base_url('kasir/Produk'); ?>">Produk</a></li>
+                                <li><a href="<?php echo base_url('Barang/view_kasir'); ?>">Produk</a></li>
                             </ul>
                         </li>
 

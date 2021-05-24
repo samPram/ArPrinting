@@ -4,12 +4,12 @@
     <!-- LOGO -->
     <div class="topbar-left">
         <div class="text-center">
-            <a href="<?php echo base_url('beranda'); ?>" class="logo"><i class="ion-ios7-world icon-c-logo"></i><span>Ar Printing</span></a>
+            <a href="<?php echo base_url('beranda'); ?>" class="logo"><i class="ion-arrow-right-a icon-c-logo"></i><span>UD Nafi</span></a>
             <!-- Image Logo here -->
-            <!--<a href="index.html" class="logo">-->
-            <!--<i class="icon-c-logo"> <img src="<?php echo base_url(); ?>/assets/images/logo_sm.png" height="42"/> </i>-->
-            <!--<span><img src="<?php echo base_url(); ?>/assets/images/logo_light.png" height="20"/></span>-->
-            <!--</a>-->
+            <!-- <a href="" class="logo">
+                <i class="icon-c-logo"> <img src="<?php echo base_url(); ?>/assets/images/logo_sm.png" height="42" /> </i>
+                <span><img src="<?php echo base_url(); ?>/assets/images/logo_light.png" height="20" /></span>
+            </a> -->
         </div>
     </div>
 

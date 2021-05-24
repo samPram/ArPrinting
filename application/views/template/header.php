@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="<?php echo base_url(); ?>/assets/images/favicon_1.ico">
 
-    <title>Ar Printing</title>
+    <title>UD Nafi</title>
 
     <!-- DataTables -->
     <link href="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -38,6 +38,9 @@
     <link href="<?= base_url(); ?>assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url(); ?>assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="<?= base_url(); ?>assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+
+    <!-- Sweet Alert -->
+    <link href="<?= base_url(); ?>assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css">
 
 
     <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />

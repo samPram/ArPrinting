@@ -13,6 +13,13 @@ class M_transaksi extends CI_Model
 		else return $this->db->get()->result_array();
 	}
 
+	public function tampil_getCountAll()
+	{
+		$this->db->select('COUNT(id_transaksi) as total');
+		$this->db->from('transaksi');
+		return $this->db->get()->row_array();
+	}
+
 	function tambah_data($data)
 	{
 		$this->db->insert('transaksi', $data);

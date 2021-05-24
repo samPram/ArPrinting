@@ -15,6 +15,13 @@ class M_user extends CI_Model
 		else return  $this->db->get()->result_array();
 	}
 
+	public function tampil_getCountAll()
+	{
+		$this->db->select('COUNT(id_user) as total');
+		$this->db->from('ms_user');
+		return $this->db->get()->row_array();
+	}
+
 	function tambah_data($data)
 	{
 		$this->db->insert('ms_user', $data);

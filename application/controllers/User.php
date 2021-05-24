@@ -25,6 +25,13 @@ class User extends CI_Controller
                 }
         }
 
+        public function getCountAll()
+        {
+                $data['data'] = $this->M_user->tampil_getCountAll();
+                echo json_encode($data['data']);
+                return;
+        }
+
         public function add()
         {
                 $id_user = $this->input->post('id_user');

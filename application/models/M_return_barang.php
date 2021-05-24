@@ -29,6 +29,13 @@ class M_return_barang extends CI_Model
     return $this->db->get()->row_array();
   }
 
+  public function tampil_getCountAll()
+  {
+    $this->db->select('COUNT(id_return) as total');
+    $this->db->from('return_barang');
+    return $this->db->get()->row_array();
+  }
+
   public function add($data)
   {
     $this->db->insert('return_barang', $data);
