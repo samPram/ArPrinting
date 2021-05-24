@@ -28,11 +28,12 @@
                         </li>
 
                         <li class="has_sub">
-                            <a href="<?php echo base_url('kasir/LaporanController'); ?>" class="waves-effect"><i class="ti-file"></i> Laporan Penjualan</a>
-
+                            <a href="javascript:void(0);" class="waves-effect"><i class="ti-back-left"></i> <span> Return Barang</span> <span class="menu-arrow"></span> </a>
+                            <ul class="list-unstyled">
+                                <li><a href="<?= base_url(); ?>Return_barang">View</a></li>
+                                <li><a href="<?php echo base_url('Return_barang/view'); ?>">Tambah Data</a></li>
+                            </ul>
                         </li>
-
-
 
                     </ul>
                     <div class="clearfix"></div>

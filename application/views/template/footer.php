@@ -22,9 +22,9 @@
     <script src="<?php echo base_url(); ?>assets/js/jquery.nicescroll.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jquery.scrollTo.min.js"></script>
 
+    <!-- Plugins -->
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.bootstrap.js"></script>
-
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.buttons.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/buttons.bootstrap.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/jszip.min.js"></script>
@@ -40,12 +40,34 @@
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.colVis.js"></script>
     <script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.fixedColumns.min.js"></script>
 
+    <script src="<?= base_url(); ?>assets/plugins/moment/moment.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/timepicker/bootstrap-timepicker.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/clockpicker/js/bootstrap-clockpicker.min.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/switchery/js/switchery.min.js"></script>
+    <script type="text/javascript" src="<?= base_url(); ?>assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+    <script type="text/javascript" src="<?= base_url(); ?>assets/plugins/jquery-quicksearch/jquery.quicksearch.js"></script>
+    <script src="<?= base_url(); ?>assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <script src="<?= base_url(); ?>assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js" type="text/javascript"></script>
+
+    <!-- datatabales -->
     <script src="<?php echo base_url(); ?>assets/pages/datatables.init.js"></script>
 
+    <!-- date-picker -->
+    <script src="<?php echo base_url(); ?>assets/pages/jquery.form-pickers.init.js"></script>
+
+    <!-- form-advance -->
+    <script type="text/javascript" src="<?= base_url(); ?>assets/pages/jquery.form-advanced.init.js"></script>
 
     <script src="<?php echo base_url(); ?>assets/js/jquery.core.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jquery.app.js"></script>
-
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -82,36 +104,6 @@
             });
 
             $('#datatable2').dataTable();
-            $('#datatable2-keytable').DataTable({
-                keys: true
-            });
-            $('#datatable2-responsive').DataTable();
-            $('#datatable2-colvid').DataTable({
-                "dom": 'C<"clear">lfrtip',
-                "colVis": {
-                    "buttonText": "Change columns"
-                }
-            });
-            $('#datatable2-scroller').DataTable({
-                ajax: "assets/plugins/datatables/json/scroller-demo.json",
-                deferRender: true,
-                scrollY: 380,
-                scrollCollapse: true,
-                scroller: true
-            });
-            var table = $('#datatable2-fixed-header').DataTable({
-                fixedHeader: true
-            });
-            var table = $('#datatable2-fixed-col').DataTable({
-                scrollY: "300px",
-                scrollX: true,
-                scrollCollapse: true,
-                paging: false,
-                fixedColumns: {
-                    leftColumns: 1,
-                    rightColumns: 1
-                }
-            });
 
             $("#harga-masuk").maskMoney({
                 thousands: '.',
@@ -137,6 +129,10 @@
             $('#btnAddBarangMasuk').attr('disabled', true);
 
             $('#delete-modal').on('show.bs.modal', function(e) {
+                $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            });
+
+            $('#modal-deleteReturn').on('show.bs.modal', function(e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
 
@@ -243,26 +239,6 @@
                 $('#total-masuk').attr('value', total);
             })
 
-            // $(`p[id='hargaProduk']`).each(function(i) {
-            //     // console.log($(this).data('id'))
-            //     let id_produk = $(this).data('id')
-            //     $.ajax({
-            //         url: `<?= base_url(); ?>Barang_masuk/showFirst/${id_produk}`,
-            //         type: 'GET',
-            //         dataType: 'json',
-            //         success: function(data) {
-            //             let firstPrice = data.filter(element => {
-            //                 return element.jumlah_masuk > 0
-            //             });
-            //             console.log(firstPrice)
-            //             $(`#hargaProduk[data-id='${id_produk}']`).attr('data-data', `${firstPrice[0].harga_masuk}`)
-            //             $(`#hargaProduk[data-id='${id_produk}']`).attr('data-idmasuk', `${firstPrice[0].id_masuk}`)
-            //             $(`#hargaProduk[data-id='${id_produk}']`).append(`<b>Rp. ${firstPrice[0].harga_masuk}</b>`)
-            //         }
-            //     })
-            // })
-            // console.log()
-
             $('.btnAddCard').on('click', function(e) {
                 let id = $(this).data('id');
                 let id_masuk = $(this).data('idmasuk');
@@ -314,6 +290,147 @@
                 })
             });
 
+            $('.btnViewBarangKeluar').click(function(e) {
+                $(`.btnViewBarangKeluar`).attr('disabled', false);
+                $('.data-viewBarangKeluar').empty();
+                let id = $(this).data('id');
+                $.ajax({
+                    url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        let row = ``;
+                        let i = 1
+                        data.forEach(element => {
+                            row += `
+                            <tr>
+                                <td>${i++}</td>
+                                <td>${element.nama_produk}</td>
+                                <td>${element.jumlah_keluar}</td>
+                                <td>${element.harga_keluar}</td>
+                                <td>${element.total_harga_keluar}</td>
+                            </tr>
+                            `;
+                        });
+
+                        $('.data-viewBarangKeluar').html(row);
+                        $(`.btnViewBarangKeluar[data-id='${id}']`).attr('disabled', true);
+                    }
+                });
+            })
+
+            $('#btnSubmitDateRange').click(function(e) {
+                $('#data-view').empty();
+                var data = $('#form-dateRange').serialize();
+                $.ajax({
+                    url: `<?= base_url(); ?>Laporan/getPeriode`,
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function(data) {
+                        let row = ``;
+                        let i = 1;
+                        // console.log(data)
+                        // if (data.length == 0) {
+                        //     row = `<tr>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //         <td></td>
+                        //     </tr>`;
+                        //     $('#data-view').html(row);
+                        // }
+                        data.forEach(element => {
+                            row += `
+                            <tr>
+                                        <td>${i++}</td>
+                                        <td>${element.id_transaksi}</td>
+                                        <td>${element.tanggal}</td>
+                                        <td>${element.username}</td>
+                                        <td>${element.jumlah_item}</td>
+                                        <td>${element.bayar}</td>
+                                        <td>${element.total}</td>
+                                        <td>${element.kembali}</td>
+                                        <td>
+
+                                            <button data-id="${element.id_transaksi}" class='on-default default-row btn btn-info btnViewBarangKeluar' onclick='detailTransaksi2(${element.id_transaksi})'>
+                                                <i class='ti-eye'></i></button>
+                                        </td>
+                                    </tr>
+                            `;
+                        });
+                        $('#data-view').html(row);
+                    }
+                })
+            })
+
+            $('.btnDetailTransaksi').click(function(e) {
+                $(`.btnDetailTransaksi`).attr('disabled', false);
+                $('.data-viewDetailTransaksi').empty();
+                let id = $(this).data('id');
+                $.ajax({
+                    url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        let row = ``;
+                        let i = 1
+                        data.forEach(element => {
+                            row += `
+                            <tr data-id='${element.id_keluar}'>
+                                <td>${i++}</td>
+                                <td>${element.nama_produk}</td>
+                                <td>${element.jumlah_keluar}</td>
+                                <td>${element.harga_keluar}</td>
+                                <td>${element.total_harga_keluar}</td>
+                                <td>
+                                <button data-id="${element.id_keluar}" class='on-default default-row btn btn-success btnDetailTranskasi' onclick='showByIdKeluar(${element.id_keluar})' data-toggle='modal' data-target='#modal-return-add'>
+                          <i class='ti-plus'></i></button>
+                                </td>
+                            </tr>
+                            `;
+                        });
+
+                        $('.data-viewDetailTransaksi').html(row);
+                        $(`.btnDetailTransaksi[data-id='${id}']`).attr('disabled', true);
+                    }
+                });
+            })
+
+            $('#jumlah-return').keyup(function(e) {
+                let hargaReturn = $('#harga-return').val();
+                let jumlahReturn = $('#jumlah-return').val();
+                let result = hargaReturn * jumlahReturn;
+                $('#total-return').attr('value', result);
+            })
+
+            $('.btnUpdateReturn').click(function(e) {
+                let id = $(this).data('id');
+                $.ajax({
+                    url: `<?= base_url(); ?>Return_barang/showById/${id}`,
+                    data: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        $('#id-return').attr('value', data.id_return);
+                        $('#id-transaksi-return').attr('value', data.id_transaksi);
+                        $('#id-keluar').attr('value', data.id_keluar);
+                        $('#nama-return').attr('value', data.nama_produk);
+                        $('#jumlah-return').attr('value', data.jumlah_barang);
+                        $('#jumlah-keluar').attr('value', data.jumlah_keluar);
+                        $('#jumlah-return-cur').attr('value', data.jumlah_barang);
+                        $('#harga-return').attr('value', data.harga_barang);
+                        $('#total-return').attr('value', data.total_barang);
+                    }
+                })
+            })
+
         });
         TableManageButtons.init();
 
@@ -347,6 +464,50 @@
             let result = bayar - totalBayar;
             $('#kembalian').attr('value', result)
         })
+
+        function detailTransaksi(id) {
+            $(`.btnViewBarangKeluar`).attr('disabled', false);
+            $('.data-viewBarangKeluar').empty();
+            // let id = $('.btnViewBarangKeluar').data('id');
+            $.ajax({
+                url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    let row = ``;
+                    let i = 1
+                    data.forEach(element => {
+                        row += `
+                            <tr>
+                                <td>${i++}</td>
+                                <td>${element.nama_produk}</td>
+                                <td>${element.jumlah_keluar}</td>
+                                <td>${element.harga_keluar}</td>
+                                <td>${element.total_harga_keluar}</td>
+                            </tr>
+                            `;
+                    });
+
+                    $('.data-viewBarangKeluar').html(row);
+                    $(`.btnViewBarangKeluar[data-id='${id}']`).attr('disabled', true);
+                }
+            });
+        }
+
+        function showByIdKeluar(id) {
+            $.ajax({
+                url: `<?= base_url(); ?>Barang_keluar/showById/${id}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#id-keluar-return').attr('value', data.id_keluar);
+                    $('#id-transaksi-return').attr('value', data.id_transaksi);
+                    $('#nama-return').attr('value', data.nama_produk);
+                    $('#harga-return').attr('value', data.harga_keluar);
+                    $('#jumlah-keluar-return').attr('value', data.jumlah_keluar);
+                }
+            })
+        }
     </script>
 
     </body>
