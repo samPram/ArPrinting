@@ -4,12 +4,8 @@
     <!-- LOGO -->
     <div class="topbar-left">
         <div class="text-center">
-            <a href="<?php echo base_url('beranda'); ?>" class="logo"><i class="ion-arrow-right-a icon-c-logo"></i><span>UD Nafi</span></a>
             <!-- Image Logo here -->
-            <!-- <a href="" class="logo">
-                <i class="icon-c-logo"> <img src="<?php echo base_url(); ?>/assets/images/logo_sm.png" height="42" /> </i>
-                <span><img src="<?php echo base_url(); ?>/assets/images/logo_light.png" height="20" /></span>
-            </a> -->
+            <a href="" class="logo"><i class="ion-arrow-right-a icon-c-logo"></i><span>UD Nafi</span></a>
         </div>
     </div>
 
@@ -28,8 +24,11 @@
                         <a href="#" id="btn-fullscreen" class="waves-effect waves-light"><i class="icon-size-fullscreen"></i></a>
                     </li>
                     <li class="dropdown top-menu-item-xs">
-                        <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true"><img src="<?php echo base_url(); ?>/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                        <a href="" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </a>
                         <ul class="dropdown-menu">
+                            <li><a href="<?= base_url('/Profil/view_profil/' . $this->session->userdata('id_user')); ?>"><i class="ti-user m-r-10 text-custom"></i> Profile</a></li>
                             <li><a href="<?php echo base_url() . 'Auth/logout' ?>"><i class="ti-power-off m-r-10 text-danger"></i> Logout</a></li>
                         </ul>
                     </li>

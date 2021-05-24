@@ -1,63 +1,126 @@
 <!DOCTYPE html>
 <html>
 
+<!-- Mirrored from coderthemes.com/ubold_2.1/dark_leftbar/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Oct 2016 02:53:01 GMT -->
+
 <head>
-  </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
   <meta name="author" content="Coderthemes">
 
-  <link rel="shortcut icon" href="<?php echo base_url(); ?>/assets/images/favicon_1.ico">
-  <title>AR Printing</title>
+  <link rel="shortcut icon" href="assets/images/favicon_1.ico">
 
-  <!-- Bootstrap -->
-  <link href="<?php echo base_url() . '/assets/css/bootstrap.css' ?>" rel="stylesheet">
+  <title>UD Nafi</title>
+
+  <link href="<?= base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="<?= base_url(); ?>assets/css/core.css" rel="stylesheet" type="text/css" />
+  <link href="<?= base_url(); ?>assets/css/components.css" rel="stylesheet" type="text/css" />
+  <link href="<?= base_url(); ?>assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="<?= base_url(); ?>assets/css/pages.css" rel="stylesheet" type="text/css" />
+  <link href="<?= base_url(); ?>assets/css/responsive.css" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+  <script src="<?= base_url(); ?>assets/js/modernizr.min.js"></script>
+  <script>
+    // (function(i, s, o, g, r, a, m) {
+    //   i['GoogleAnalyticsObject'] = r;
+    //   i[r] = i[r] || function() {
+    //     (i[r].q = i[r].q || []).push(arguments)
+    //   }, i[r].l = 1 * new Date();
+    //   a = s.createElement(o),
+    //     m = s.getElementsByTagName(o)[0];
+    //   a.async = 1;
+    //   a.src = g;
+    //   m.parentNode.insertBefore(a, m)
+    // })(window, document, 'script', '../../../www.google-analytics.com/analytics.js', 'ga');
+
+    // ga('create', 'UA-69506598-1', 'auto');
+    // ga('send', 'pageview');
+  </script>
+
 </head>
 
 <body>
-
-  <div class="container">
-    <div class="col-md-4 col-md-offset-4">
-
-
+  <div class="account-pages"></div>
+  <div class="clearfix"></div>
+  <div class="wrapper-page">
+    <div class=" card-box">
       <div class="panel-heading">
-        <div>
-          <h2 class="text-center"> AR PRINTING <br></h2>
-        </div>
+        <h3 class="text-center"> Sign In to <strong class="text-custom">UD Nafi</strong> </h3>
       </div>
-      <form class="form-signin" action="<?php echo base_url() . 'Auth' ?>" method="post">
 
-        <div class="form-group">
-          <label for="username" class="sr-only">Username</label>
-          <input type="text" id="username" name="username" class="form-control" placeholder="Username" value="<?= set_value('username'); ?>" autofocus>
-          <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
-        </div>
 
-        <div class="form-group">
-          <label for="password" class="sr-only">Password</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="Password">
-          <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
-        </div>
+      <div class="panel-body">
+        <form class="form-horizontal m-t-20" action="<?php echo base_url() . 'Auth' ?>" method="post">
 
-        <div class="col-md-12" style="text-align: center; color: #E74C3C; font: bold;">
-          <?= $this->session->flashdata('message'); ?>
-        </div>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <input type="text" id="username" name="username" class="form-control" placeholder="Username" value="<?= set_value('username'); ?>" autofocus>
+              <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
+          </div>
 
-        <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-        </div>
-      </form>
+          <div class="form-group">
+            <div class="col-xs-12">
+              <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+              <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
+            </div>
+          </div>
 
+          <div class="col-md-12" style="text-align: center; color: #E74C3C; font: bold;">
+            <?= $this->session->flashdata('message'); ?>
+          </div>
+
+          <div class="form-group text-center m-t-40">
+            <div class="col-xs-12">
+              <button class="btn btn-primary btn-block text-uppercase waves-effect waves-light" type="submit">Log in</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
     </div>
-  </div> <!-- /container -->
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <p>Don't have an account? <a href="<?= base_url(); ?>Auth/registrasi" class="text-primary m-l-5"><b>Sign Up</b></a></p>
+
+      </div>
+    </div>
+
+  </div>
 
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="<?php echo base_url() . '/assets/js/jquery.js' ?>"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="<?php echo base_url() . '/assets/js/bootstrap.min.js' ?>"></script>
+
+
+  <script>
+    var resizefunc = [];
+  </script>
+
+  <!-- jQuery  -->
+  <script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/detect.js"></script>
+  <script src="<?= base_url(); ?>assets/js/fastclick.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.slimscroll.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.blockUI.js"></script>
+  <script src="<?= base_url(); ?>assets/js/waves.js"></script>
+  <script src="<?= base_url(); ?>assets/js/wow.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.nicescroll.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.scrollTo.min.js"></script>
+
+
+  <script src="<?= base_url(); ?>assets/js/jquery.core.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.app.js"></script>
 
 </body>
+
+<!-- Mirrored from coderthemes.com/ubold_2.1/dark_leftbar/page-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Oct 2016 02:53:01 GMT -->
 
 </html>

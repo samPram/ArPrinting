@@ -6,6 +6,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('M_login');
+		$this->load->model('M_user');
 		$this->load->library('form_validation');
 	}
 
@@ -48,6 +49,39 @@ class Auth extends CI_Controller
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">User has not been activated!</div>');
 				redirect('auth');
 			}
+		}
+	}
+
+	public function registrasi()
+	{
+		$this->form_validation->set_rules('username', 'Username', 'required|trim');
+		$this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]');
+		$this->form_validation->set_rules('re_password', 'Repeat password', 'required|trim|matches[password]');
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('v_registrasi');
+		} else {
+			$username = htmlspecialchars($this->input->post('username', true));
+			$password = md5($this->input->post('password', true));
+
+			$data = [
+				'username' => $username,
+				'password' => $password,
+				'level' => null,
+				'status_user' => 'Nonaktif'
+			];
+
+			if ($this->M_user->tambah_data($data) > 0) {
+				$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                Success create account.
+                            </div>');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				Failed create account!
+		</div>');
+			}
+			redirect('auth');
 		}
 	}
 
