@@ -127,11 +127,11 @@
                         </div>
                         <div class="form-group">
                             <label for="jumlah_masuk">Jumlah</label>
-                            <input type="number" class="form-control" id="jumlah-masuk" name="jumlah_masuk" required>
+                            <input type="text" class="vertical-spin from-control" id="jumlah-masuk" name="jumlah_masuk" required>
 
                         </div>
                         <div class="form-group">
-                            <label for="harga-masuk">Harga</label>
+                            <label for="harga-masuk">Harga (Rp.)</label>
                             <input type="text" class="form-control harga-masuk" id="harga-masuk" name="harga_masuk" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" required>
 
                         </div>

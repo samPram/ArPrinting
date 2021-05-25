@@ -2,6 +2,7 @@
 
 class M_transaksi extends CI_Model
 {
+	/* SELECT ALL DATA TRANSAKSI */
 	function tampil_data($data)
 	{
 		$this->db->select('*');
@@ -13,6 +14,7 @@ class M_transaksi extends CI_Model
 		else return $this->db->get()->result_array();
 	}
 
+	/* SELECT COUNT DATA TRANSAKSI */
 	public function tampil_getCountAll()
 	{
 		$this->db->select('COUNT(id_transaksi) as total');
@@ -20,12 +22,14 @@ class M_transaksi extends CI_Model
 		return $this->db->get()->row_array();
 	}
 
+	/* INSERT DATA TRANSAKSI */
 	function tambah_data($data)
 	{
 		$this->db->insert('transaksi', $data);
 		return $this->db->affected_rows();
 	}
 
+	/* DELETE DATA TRANSAKSI */
 	function hapus_data($id_transaksi)
 	{
 		$this->db->where(array('id_transaksi' => $id_transaksi));
@@ -33,6 +37,7 @@ class M_transaksi extends CI_Model
 		redirect('../kasir/TransaksiControllerkasir');
 	}
 
+	/* UPDATE DATA TRANSAKSI */
 	function ubah_harga($id_transaksi)
 	{
 		$data = array(

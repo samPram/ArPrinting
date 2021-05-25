@@ -31,6 +31,7 @@ class Barang extends CI_Controller
                 }
         }
 
+        /* show data by Id Produk */
         public function showById($id = null)
         {
                 $data = ['id_produk' => $id];
@@ -39,6 +40,7 @@ class Barang extends CI_Controller
                 return;
         }
 
+        /* show count all row data produk */
         public function getCountAll()
         {
                 $data['data'] = $this->M_barang->tampil_getCountAll();
@@ -46,6 +48,7 @@ class Barang extends CI_Controller
                 return;
         }
 
+        /* add data produk */
         public function add()
         {
                 $config['upload_path'] = './uploads';
@@ -102,6 +105,7 @@ class Barang extends CI_Controller
                 }
         }
 
+        /* delete data produk by Id Produk */
         public function delete($id = null)
         {
                 if ($this->M_barang->hapus_data($id) > 0) {
@@ -118,8 +122,16 @@ class Barang extends CI_Controller
                 redirect('barang');
         }
 
+        /* update data produk by Id Produk */
         public function update($id = null)
         {
+                $config['upload_path'] = './uploads';
+                $config['allowed_types'] = '|jpg|jpeg|png';
+                $config['max_size'] = 2000;
+                $config['file_name'] = 'img-' . date('YmdHis');
+
+                $this->load->library('upload', $config);
+
                 $data = ['id_produk' => $id];
                 $result['data'] = $this->M_barang->tampil_data($data);
                 $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
@@ -132,28 +144,35 @@ class Barang extends CI_Controller
                         $this->load->view('admin/v_updateBarang', $result);
                         $this->load->view('template/footer');
                 } else {
-                        $nama = htmlspecialchars($this->input->post('nama', true));
-                        $satuan = htmlspecialchars($this->input->post('satuan', true));
-                        // $harga = str_replace('.', '', $this->input->post('harga', true));
-                        // $quantity = htmlspecialchars($this->input->post('jumlah', true));
+                        if (!$this->upload->do_upload('image')) {
+                                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                               ' . $this->upload->display_errors() . '
+                            </div>');
+                        } else {
+                                $nama = htmlspecialchars($this->input->post('nama', true));
+                                $satuan = htmlspecialchars($this->input->post('satuan', true));
+                                // $harga = str_replace('.', '', $this->input->post('harga', true));
+                                // $quantity = htmlspecialchars($this->input->post('jumlah', true));
 
-                        $data = [
-                                'nama_produk' => $nama,
-                                'satuan' => $satuan
-                        ];
+                                $data = [
+                                        'nama_produk' => $nama,
+                                        'satuan' => $satuan,
+                                        'image' => $this->upload->data('file_name')
+                                ];
 
-                        if ($this->M_barang->ubah_data($data, $id) > 0) {
-                                $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
+                                if ($this->M_barang->ubah_data($data, $id) > 0) {
+                                        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                 Success update data.
                             </div>');
-                        } else {
-                                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+                                } else {
+                                        $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                         Failed update data!
                                     </div>');
+                                }
                         }
-
                         redirect('barang');
                 }
         }

@@ -3,6 +3,7 @@
 class M_barang extends CI_Model
 {
 
+	/* VIEW ALL DATA BARANG */
 	public function tampil_data($data)
 	{
 		$this->db->select('*');
@@ -14,16 +15,19 @@ class M_barang extends CI_Model
 		else return  $this->db->get()->result_array();
 	}
 
+	/* VIEW NUMBER ROWS DATA BARANG */
 	public function total_data()
 	{
 		return $this->db->get('ms_produk')->num_rows();
 	}
 
+	/* VIEW DATA BARANG WITH LIMIT DATA */
 	public function tampil_list($limit, $offset)
 	{
 		return $this->db->get('ms_produk', $limit, $offset)->result_array();
 	}
 
+	/* VIEW COUNT ALL DATA BARANG */
 	public function tampil_getCountAll()
 	{
 		$this->db->select('COUNT(id_produk) as total');
@@ -31,25 +35,25 @@ class M_barang extends CI_Model
 		return $this->db->get()->row_array();
 	}
 
+	/* INSERT DATA BARANG */
 	function tambah_data($data)
 	{
 		$this->db->insert('ms_produk', $data);
 		return $this->db->affected_rows();
 	}
 
+	/* UPDATE DATA BARANG */
 	function ubah_data($data, $id_produk)
 	{
 		$this->db->set($data);
 		$this->db->where('id_produk', $id_produk);
 		$this->db->update('ms_produk');
-		// echo $this->db->last_query();
-		// die();
 		return $this->db->affected_rows();
 	}
 
+	/* UPDATE QUANTITY DATA BARANG */
 	public function ubah_stok($id)
 	{
-		//UPDATE `ms_produk` SET quantity=(SELECT SUM(jumlah_masuk) FROM barang_masuk WHERE id_produk = 29) WHERE id_produk = 29
 		$this->db->select('SUM(jumlah_masuk) AS total');
 		$this->db->from('barang_masuk');
 		$this->db->where('id_produk', $id);
@@ -58,11 +62,10 @@ class M_barang extends CI_Model
 		$this->db->where('id_produk', $id);
 		$this->db->update('ms_produk');
 
-		// echo $this->db->last_query();
-		// die();
 		return $this->db->affected_rows();
 	}
 
+	/* DELETE DATA BARANG */
 	function hapus_data($id_produk)
 	{
 		$this->db->delete('ms_produk', ['id_produk' => $id_produk]);

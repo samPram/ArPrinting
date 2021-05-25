@@ -10,11 +10,8 @@ class Barang_masuk extends CI_Controller
     $this->load->model('M_barang');
     $this->load->library('form_validation');
   }
-  public function index()
-  {
-    # code...
-  }
 
+  /* show all data barang masuk by Id Produk */
   public function showById($id = null)
   {
     $data = ['id_produk' => $id, 'id_masuk' => null];
@@ -23,6 +20,7 @@ class Barang_masuk extends CI_Controller
     return;
   }
 
+  /* show first data barang masuk */
   public function showFirst($id = null)
   {
     $data = ['id_produk' => $id];
@@ -31,6 +29,7 @@ class Barang_masuk extends CI_Controller
     return;
   }
 
+  /* add new data barang masuk */
   public function add()
   {
     if ($this->session->userdata('level') == 'Admin') {
@@ -40,11 +39,11 @@ class Barang_masuk extends CI_Controller
       $harga = str_replace('.', '', $this->input->post('harga_masuk', true));
       $total = htmlspecialchars($this->input->post('total_harga', true));
 
-      if ($jumlah <= 0) {
+      if ($harga == 0 || $jumlah == 0 || $total == 0) {
         $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                      Jumlah value can\'t 0 value or negativ value!
-                  </div>');
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        Jumlah field or harga field or total field can\'t set 0 value or negativ value!
+    </div>');
         redirect('barang');
         die;
       }
@@ -77,6 +76,7 @@ class Barang_masuk extends CI_Controller
     }
   }
 
+  /* show page update data barang masuk */
   public function tampil_update($id = null)
   {
     $data['data'] = $this->M_barang_masuk->tampil_detail(['id_masuk' => $id]);
@@ -93,6 +93,7 @@ class Barang_masuk extends CI_Controller
     }
   }
 
+  /* update data barang */
   public function update()
   {
     $id = htmlspecialchars($this->input->post('id_masuk', true));
@@ -101,11 +102,11 @@ class Barang_masuk extends CI_Controller
     $harga = str_replace('.', '', $this->input->post('harga_masuk', true));
     $total = htmlspecialchars($this->input->post('total_harga', true));
 
-    if ($jumlah <= 0) {
+    if ($harga == 0 || $jumlah == 0 || $total == 0) {
       $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    Jumlah value can\'t 0 value or negativ value!
-                </div>');
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      Jumlah field or harga field or total field can\'t set 0 value or negativ value!
+  </div>');
       redirect('barang');
       die;
     }
@@ -135,6 +136,7 @@ class Barang_masuk extends CI_Controller
     redirect('barang');
   }
 
+  /* delete data barang masuk by Id Masuk */
   public function delete($id_masuk = null, $id_prdouk = null)
   {
     if ($this->session->userdata('level') == 'Admin') {

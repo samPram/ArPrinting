@@ -10,40 +10,16 @@ class Transaksi extends CI_Controller
 		$this->load->model('M_barang');
 		$this->load->model('M_barang_keluar');
 		$this->load->model('M_barang_masuk');
+		$this->load->model('M_view_transaksi');
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
 	}
 
+	/* view all data transaksi */
 	public function index($id = null)
 	{
 		if ($this->session->userdata('level') == 'Kasir') {
-			// $config['base_url'] = base_url() . 'Transaksi/index';
-			// $config['total_rows'] = $this->M_barang->total_data();
-			// $config['per_page'] = 5;
 
-			// $config['full_tag_open'] = '<nav aria-label="Page navigation"><ul class="pagination">';
-			// $config['full_tag_close'] = '</ul></nav>';
-
-			// $config['next_link'] = '&raquo';
-			// $config['next_tag_open'] = '<li>';
-			// $config['next_tag_close'] = '</li>';
-
-			// $config['prev_link'] = '&laquo';
-			// $config['prev_tag_open'] = '<li>';
-			// $config['prev_tag_close'] = '</li>';
-
-			// $config['cur_tag_open'] = '<li><a>';
-			// $config['cur_tag_close'] = '</a></li>';
-
-			// $config['num_tag_open'] = '<li>';
-			// $config['num_tag_close'] = '</li>';
-
-			// $this->pagination->initialize($config);
-
-			// $data['start'] = $this->uri->segment(3);
-			// $data['data'] = $this->M_barang->tampil_list($config['per_page'], $data['start']);
-			// echo var_dump($data['data']);
-			// die;
 			$data['data'] = $this->M_barang_masuk->tampil_stok();
 
 			$this->load->view('template/header');
@@ -56,6 +32,7 @@ class Transaksi extends CI_Controller
 		}
 	}
 
+	/* Execute data barang by Id Produk */
 	public function list_card($id = null)
 	{
 		$data['list']  = $this->M_barang->tampil_data(['id_produk' => $id]);
@@ -63,6 +40,7 @@ class Transaksi extends CI_Controller
 		return;
 	}
 
+	/* show all transaksi */
 	public function getAllTransaction()
 	{
 		if ($this->session->userdata('level') == 'Admin') {
@@ -77,21 +55,19 @@ class Transaksi extends CI_Controller
 		}
 	}
 
+	/* show data transaksi by Id transaksi */
 	public function detailTransaction($id = null)
 	{
 		$data = [
 			'id_transaksi' => $id
 		];
-		if ($this->session->userdata('level') == 'Admin') {
-			$data['detail'] = $this->M_view_transaksi->tampil_detail($data);
+		$data['detail'] = $this->M_view_transaksi->tampil_detail($data);
 
-			echo json_encode($data['detail']);
-			return;
-		} else {
-			$this->load->view('404_page');
-		}
+		echo json_encode($data['detail']);
+		return;
 	}
 
+	/* show count all data transaksi */
 	public function getCountAll()
 	{
 		$data['data'] = $this->M_transaksi->tampil_getCountAll();
@@ -99,6 +75,7 @@ class Transaksi extends CI_Controller
 		return;
 	}
 
+	/* add barang transaksi */
 	public function add()
 	{
 		if ($this->session->userdata('level') == 'Kasir') {
@@ -175,6 +152,7 @@ class Transaksi extends CI_Controller
 		}
 	}
 
+	/* delete data transaksi */
 	public function delete()
 	{
 		$id_transaksi = $this->input->post('id_transaksi1');
@@ -182,6 +160,7 @@ class Transaksi extends CI_Controller
 		$this->m_transaksi->hapus_data($id_transaksi);
 	}
 
+	/* update harga transaksi */
 	public function updateHarga()
 	{
 		$id_transaksi = $this->input->post('id_transaksi');

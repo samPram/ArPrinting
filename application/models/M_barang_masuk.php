@@ -2,6 +2,7 @@
 
 class M_barang_masuk extends CI_Model
 {
+  /* SELECT ALL DATA BARANG MASUK */
   public function tampil_data($data)
   {
     $this->db->select('*');
@@ -14,6 +15,7 @@ class M_barang_masuk extends CI_Model
     else return $this->db->get()->result_array();
   }
 
+  /* SELECT DATA BARANG MASUK BY ID MASUK */
   public function tampil_detail($data)
   {
     $this->db->select('a.id_masuk, a.id_produk, b.nama_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk');
@@ -23,6 +25,7 @@ class M_barang_masuk extends CI_Model
     return $this->db->get()->row_array();
   }
 
+  /* SELECT FIRST ROW DATA BARANG MASUK */
   public function tampil_firs($data)
   {
     $this->db->select('a.id_masuk, a.id_produk, b.nama_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk');
@@ -33,6 +36,7 @@ class M_barang_masuk extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /* SELECT STOK DATA BARANG MASUK */
   public function tampil_stok()
   {
     // SELECT a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk FROM barang_masuk a JOIN ms_produk b ON b.id_produk = a.id_produk WHERE a.jumlah_masuk NOT IN(0) GROUP by id_produk ORDER BY tgl_masuk ASC
@@ -46,12 +50,14 @@ class M_barang_masuk extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /* INSERT DATA BARANG MASUK */
   public function tambah_data($data)
   {
     $this->db->insert('barang_masuk', $data);
     return $this->db->affected_rows();
   }
 
+  /* UPDATE DATA BARANG MASUK */
   public function ubah_data($data, $id)
   {
     $this->db->set($data);
@@ -60,6 +66,7 @@ class M_barang_masuk extends CI_Model
     return $this->db->affected_rows();
   }
 
+  /* UPDATE STOK BARANG MASUK */
   public function ubah_stok_masuk($data)
   {
     $this->db->update_batch('barang_masuk', $data, 'id_masuk');
@@ -67,6 +74,7 @@ class M_barang_masuk extends CI_Model
     return $this->db->affected_rows();
   }
 
+  /* DELETE DATA BARANG MASUK */
   public function delete_data($id)
   {
     $this->db->delete('barang_masuk', ['id_masuk' => $id]);

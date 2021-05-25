@@ -130,16 +130,20 @@
             //     precision: 0
             // });
 
+            /* Disable button when add new barang */
             $('#btnAddBarangMasuk').attr('disabled', true);
 
+            /* Execute delete with modal */
             $('#delete-modal').on('show.bs.modal', function(e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
 
+            /* Execute delete data retur with modal */
             $('#modal-deleteReturn').on('show.bs.modal', function(e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
 
+            /* Execute delete list keranjang belanja  */
             $('#modal-removeCard').on('show.bs.modal', function(e) {
                 // $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
                 let id = $(e.relatedTarget).data('id');
@@ -149,33 +153,40 @@
                 });
             });
 
-            $('#btn-detailTransaksi').on('click', function(e) {
+            /* Request detail data transaksi by Id transaksi */
+            $('.btndetailTransaksi').on('click', function(e) {
+                console.log('ok')
+                $('.data-detail').empty();
+                $(`.btndetailTransaksi`).attr('disabled', false);
                 let id = $(this).data('id');
                 $.ajax({
                     type: 'GET',
-                    url: `<?= base_url(); ?>Transaksi/detailTransaction/${id}`,
+                    url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
                     dataType: "json",
                     success: function(data) {
                         console.log(data)
                         let i = 1;
                         let row = '';
                         data.forEach(element => {
+                            let harga = formatRupiah(element.harga_keluar);
+                            let total = formatRupiah(element.total_harga_keluar);
                             row += `<tr>
                                     <td>${i++}</td>
                                     <td>${element.nama_produk}</td>
-                                    <td>${element.harga}</td>
-                                    <td>${element.jumlah}</td>
-                                    <td>${element.sub_total}</td>
-                                    <td><a data-href="" class='on-default default-row btn btn-danger' data-toggle='modal' data-target='#delete-modal'>
-                          <i class='ti-trash'></i></a></td>
+                                    <td>Rp. ${harga}</td>
+                                    <td>${element.jumlah_keluar}</td>
+                                    <td>Rp. ${total}</td>
+                                  
                                 </tr>`;
                         });
-                        $('.data-detail').append(row);
-                        $(`#btn-detailTransaksi[data-id='${id}']`).attr('disabled', true);
+                        $('.data-detail').html(row);
+                        $(`.btndetailTransaksi[data-id='${id}']`).attr('disabled', true);
                     }
                 });
+
             })
 
+            /* Request data barang masuk by Id Produk */
             $('.btnBarangMasuk').on('click', function(e) {
                 $(`.btnBarangMasuk`).attr('disabled', false);
                 $('.data-barangMasuk').empty();
@@ -217,6 +228,7 @@
                 })
             })
 
+            /* Request insert data barang masuk */
             $('#btnAddBarangMasuk').on('click', function(e) {
                 $('#jumlah-masuk').empty()
                 $('#harga-masuk').empty()
@@ -234,11 +246,11 @@
                 })
             })
 
+            /* Auto multiplication harga and jumlah barang masuk */
             $('#harga-masuk').keyup(function(e) {
                 let harga = $('#harga-masuk').val().replace(/\./g, '');
                 let jumlah = $('#jumlah-masuk').val();
 
-                console.log(harga);
                 let total = harga * jumlah;
                 $('#total-masuk').attr('value', total);
             })
@@ -294,6 +306,7 @@
                 })
             });
 
+            /* Request barang keluar by Id transaction */
             $('.btnViewBarangKeluar').click(function(e) {
                 $(`.btnViewBarangKeluar`).attr('disabled', false);
                 $('.data-viewBarangKeluar').empty();
@@ -306,13 +319,15 @@
                         let row = ``;
                         let i = 1
                         data.forEach(element => {
+                            let harga = formatRupiah(element.harga_keluar);
+                            let total = formatRupiah(element.total_harga_keluar);
                             row += `
                             <tr>
                                 <td>${i++}</td>
                                 <td>${element.nama_produk}</td>
                                 <td>${element.jumlah_keluar}</td>
-                                <td>${element.harga_keluar}</td>
-                                <td>${element.total_harga_keluar}</td>
+                                <td>Rp. ${harga}</td>
+                                <td>Rp. ${total}</td>
                             </tr>
                             `;
                         });
@@ -458,6 +473,13 @@
 
         });
         TableManageButtons.init();
+
+        function formatRupiah(nominal) {
+            var reverse = nominal.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g);
+            ribuan = ribuan.join('.').split('').reverse().join('');
+            return ribuan;
+        }
 
         function coba(id) {
             // console.log(id)

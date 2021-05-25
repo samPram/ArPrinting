@@ -43,9 +43,9 @@
                                         <td><?= $val['tanggal']; ?></td>
                                         <td><?= $val['username']; ?></td>
                                         <td><?= $val['jumlah_item']; ?></td>
-                                        <td><?= $val['bayar']; ?></td>
-                                        <td><?= $val['total']; ?></td>
-                                        <td><?= $val['kembali']; ?></td>
+                                        <td>Rp. <?= number_format($val['bayar'], 0, '', '.'); ?></td>
+                                        <td>Rp. <?= number_format($val['total'], 0, '', '.'); ?></td>
+                                        <td>Rp. <?= number_format($val['kembali'], 0, '', '.'); ?></td>
                                         <td>
 
                                             <button data-id="<?= $val['id_transaksi']; ?>" class='on-default default-row btn btn-info btnViewBarangKeluar'>

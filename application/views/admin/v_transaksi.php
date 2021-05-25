@@ -18,6 +18,7 @@
                 <thead>
                   <tr>
                     <th>No</th>
+                    <th>Id Transaksi</th>
                     <th>Tanggal</th>
                     <th>Jumlah</th>
                     <th>Total</th>
@@ -29,16 +30,15 @@
                   <?php foreach ($data as $val) :  ?>
                     <tr>
                       <td><?= $i; ?></td>
+                      <td><?= $val['id_transaksi']; ?></td>
                       <td><?= $val['tanggal']; ?></td>
-                      <td><?= $val['jumlah']; ?> item</td>
-                      <td>Rp. <?= number_format($val['total'], 2, ',', '.'); ?></td>
+                      <td><?= $val['jumlah_item']; ?> item</td>
+                      <td>Rp. <?= number_format($val['total'], 0, '', '.'); ?></td>
                       <td>
 
-                        <button class='on-default edit-row btn btn-primary' id='btn-detailTransaksi' data-id="<?= $val['id_transaksi']; ?>" class='col-sm-6 col-md-4 col-lg-3'>
+                        <button class='on-default edit-row btn btn-primary btndetailTransaksi' data-id="<?= $val['id_transaksi']; ?>">
                           <i class='ti-eye'></i></button>
 
-                        <!-- <a data-href="" class='on-default default-row btn btn-danger' data-toggle='modal' data-target='#delete-modal'>
-                          <i class='ti-trash'></i></a> -->
                       </td>
                     </tr>
                     <?php $i++; ?>
@@ -62,7 +62,6 @@
                     <th>Harga</th>
                     <th>Jumlah</th>
                     <th>Sub Total</th>
-                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody class="data-detail">

@@ -102,7 +102,7 @@
                       <div class="form-group text-right m-t-20">
                         <div class="col-xs-12">
                           <button class="btn btn-pink text-uppercase waves-effect waves-light w-sm" type="submit">
-                            Log In
+                            Sign Up
                           </button>
                         </div>
                       </div>

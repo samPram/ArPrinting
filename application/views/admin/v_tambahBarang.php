@@ -10,9 +10,6 @@
       <div class="row">
         <div class="col-sm-12">
 
-          <?php //echo $error; 
-          ?>
-
           <?php echo form_open_multipart('Barang/add', ['method' => 'post']); ?>
           <!-- <form action="<?= base_url(); ?>Barang/add" method="POST"> -->
           <div class="form-group">
