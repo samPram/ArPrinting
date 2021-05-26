@@ -22,6 +22,15 @@ class M_transaksi extends CI_Model
 		return $this->db->get()->row_array();
 	}
 
+	/* SELECT SUM TOTAL TRANSAKSI PER DAY */
+	public function tampil_totalDay($data)
+	{
+		$this->db->select('SUM(total) as total');
+		$this->db->from('transaksi');
+		$this->db->where('DATE(tanggal)', $data['date']);
+		return $this->db->get()->row_array();
+	}
+
 	/* INSERT DATA TRANSAKSI */
 	function tambah_data($data)
 	{

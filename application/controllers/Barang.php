@@ -31,6 +31,22 @@ class Barang extends CI_Controller
                 }
         }
 
+        /* show data barang for kasir page */
+        public function view()
+        {
+                if ($this->session->userdata('level') == 'Kasir') {
+                        $data['data'] = $this->M_barang->tampil_data(['id_produk' => null]);
+
+                        $this->load->view('template/header');
+                        $this->load->view('template/topbar');
+                        $this->load->view('template/sidebar_kasir');
+                        $this->load->view('kasir/v_barang', $data);
+                        $this->load->view('template/footer');
+                } else {
+                        $this->load->view('404_page');
+                }
+        }
+
         /* show data by Id Produk */
         public function showById($id = null)
         {

@@ -59,6 +59,10 @@
 
     <script src="<?= base_url(); ?>assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
 
+    <script src="<?= base_url(); ?>assets/plugins/peity/jquery.peity.min.js"></script>
+
+    <script src="<?= base_url(); ?>assets/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+
 
     <!-- datatabales -->
     <script src="<?php echo base_url(); ?>assets/pages/datatables.init.js"></script>
@@ -116,12 +120,12 @@
                 precision: 0
             });
 
-            // $("#bayar").maskMoney({
-            //     thousands: '.',
-            //     decimal: ',',
-            //     affixesStay: false,
-            //     precision: 0
-            // });
+            $("#bayar").maskMoney({
+                thousands: '.',
+                decimal: ',',
+                affixesStay: false,
+                precision: 0
+            });
 
             // $("#kembalian").maskMoney({
             //     thousands: '.',
@@ -155,7 +159,7 @@
 
             /* Request detail data transaksi by Id transaksi */
             $('.btndetailTransaksi').on('click', function(e) {
-                console.log('ok')
+                // console.log('ok')
                 $('.data-detail').empty();
                 $(`.btndetailTransaksi`).attr('disabled', false);
                 let id = $(this).data('id');
@@ -261,6 +265,8 @@
                 // console.log(id)
                 let namaBarang = $(`#namaProduk[data-id='${id}']`).data('data');
                 let hargaBarang = $(`#hargaProduk[data-id='${id}']`).data('data');
+                let rupiahHarga = formatRupiah(hargaBarang);
+                let jumlah_masuk = $(`#qtyProduk[data-id='${id}']`).data('data');
 
                 let row = `
                 <tr data-id='${id}'>
@@ -270,15 +276,16 @@
                                             <input type='hidden' name='id_masuk[]' value='${id_masuk}'>
                                         </td>
                                          <td>${namaBarang}</td>
-                                         <td>${hargaBarang}<input type='hidden' name='harga_keluar[]' value='${hargaBarang}'></td>
+                                         <td>${rupiahHarga}<input type='hidden' name='harga_keluar[]' value='${hargaBarang}'></td>
                                          <td>
                                              <div class="form-group">
-                                             <input type="number" class="form-control" id="jumlah-keluar" data-id="${id}" name="jumlah_keluar[]" onkeyup='coba(${id})' required>
+                                             <input type="number" min="0" class="form-control" id="jumlah-keluar" data-id="${id}" name="jumlah_keluar[]" onkeyup='hitungSubTotal(${id})' required>
                                              </div>
+                                             <input type='hidden' name='qty_produk[]' value='${jumlah_masuk}'>
                                          </td>
                                          <td>
                                             <div class="form-group">
-                                             <input type="number" class="form-control" id="total_harga_keluar" data-id="${id}" name="total_harga_keluar[]"  required readonly>
+                                             <input type="text" class="form-control" id="total_harga_keluar" data-id="${id}" name="total_harga_keluar[]"  required readonly>
                                              </div>
                                          </td>
                                          <td>
@@ -300,7 +307,7 @@
                     url: `<?= base_url(); ?>Transaksi/add`,
                     data: data,
                     success: function(data) {
-                        // console.log('success')
+                        // console.log(data)
                         window.location.href = data;
                     }
                 })
@@ -435,6 +442,7 @@
                 })
             })
 
+            /* Request total tabel master halaman admin */
             $.ajax({
                 url: `<?= base_url(); ?>User/getCountAll`,
                 type: 'GET',
@@ -471,23 +479,115 @@
                 }
             });
 
+            /* Request total pendapatan dan penjualan hari ini halaman kasir */
+            $.ajax({
+                url: `<?= base_url(); ?>Transaksi/getTotalDay`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // console.log(data);
+                    if (data['total'] == null) {
+                        $('#totalPendapatan').append('0')
+                    }
+                    $('#totalPendapatan').append(data['total'])
+                }
+            })
+
+            $.ajax({
+                url: `<?= base_url(); ?>Barang_keluar/getBestSellDay`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // console.log(data);
+                    if (data == null) {
+                        $('#barangTerlaris').append('Belum ada Transaksi')
+                    } else {
+                        $('#barangTerlaris').append(data['nama_produk'])
+                    }
+                }
+            })
+            $.ajax({
+                url: `<?= base_url(); ?>Barang_keluar/getHighTotal`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // console.log(data);
+                    if (data == null) {
+                        $('#penjualanTertinggi').append('0')
+                    } else {
+                        $('#penjualanTertinggi').append(data['total_harga_keluar'])
+                    }
+                }
+            })
+
+            $('#barangSearch').keyup(function(e) {
+                $('#listBarang').empty();
+                let search = $(this).val();
+                $.ajax({
+                    url: `<?= base_url(); ?>Transaksi/getSearchStok/${search}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        let row = ``;
+                        // console.log(data);
+                        data.forEach(element => {
+                            let harga_masuk = formatRupiah(element.harga_masuk);
+                            row += `
+                            <div class="col-sm-4 mobiles text-center">
+                                    <div class="product-list-box bg-lightdark thumb">
+                                        <img src="<?= base_url(); ?>/uploads/${element.image}" class="thumb-img" alt="work-thumbnail">
+
+
+                                        <div class="detail">
+                                            <h4 class="">
+                                                <p id="namaProduk" data-data="${element.nama_produk}" data-id="${element.id_proudk}">
+                                                    ${element.nama_produk}
+                                                </p>
+                                            </h4>
+
+                                            <h5 class=""> <span class="badge" id="qtyProduk" data-data="${element.jumlah_masuk}" data-id="${element.id_masuk}">
+                                                    ${element.jumlah_masuk}
+                                                </span></h5>
+                                            <p id="hargaProduk" data-id="${element.id_produk} data-data="${element.harga_masuk}">Rp. ${harga_masuk}
+                                            </p>
+
+                                            <button class="btn btn-primary btnAddCard" data-idmasuk="${element.id_masuk}" data-id='${element.id_produk}' onclick='addCard(${element.id_masuk}, ${element.id_produk})'>Tambah</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                        });
+                        $('#listBarang').html(row);
+                    }
+                })
+            })
+
         });
         TableManageButtons.init();
 
         function formatRupiah(nominal) {
-            var reverse = nominal.toString().split('').reverse().join(''),
-                ribuan = reverse.match(/\d{1,3}/g);
+            let reverse = nominal.toString().split('').reverse().join('');
+            let ribuan = reverse.match(/\d{1,3}/g);
             ribuan = ribuan.join('.').split('').reverse().join('');
             return ribuan;
         }
 
-        function coba(id) {
+        function convertFromRupiah(nominal) {
+            let nominalString = nominal.replace(/\./g, '');
+            let nominalInt = Number(nominalString);
+            return nominalInt;
+        }
+
+        function hitungSubTotal(id) {
             // console.log(id)
             let jumlahKeluar = $(`#jumlah-keluar[data-id='${id}']`).val();
             let hargaKeluar = $(`#hargaProduk[data-id='${id}']`).data('data');
-            let reuslt = jumlahKeluar * hargaKeluar;
-            // console.log(jumlahKeluar)
-            let subHarga = $(`#total_harga_keluar[data-id='${id}']`).attr('value', `${reuslt}`)
+
+            let jumlahInt = parseInt(jumlahKeluar);
+            let hargaInt = parseInt(hargaKeluar);
+            let result = jumlahInt * hargaInt;
+            // console.log(result)
+            let subHarga = $(`#total_harga_keluar[data-id='${id}']`).attr('value', formatRupiah(result))
             // let current = parseInt($('#total').val());
             // let totalHarga = current + parseInt(subHarga.val());
             // console.log(totalHarga)
@@ -498,18 +598,37 @@
         function totalHarga() {
             let result = 0;
             $(`input[id='total_harga_keluar']`).each(function(i) {
-                let subHarga = parseInt($(this).val());
-                result += subHarga
-                // console.log(subHarga)
+                let nominal = $(this).val();
+                let total = convertFromRupiah(nominal);
+                // console.log(convertFromRupiah(nominal));
+                result += total
+                // console.log(result)
             })
-            $('#total').attr('value', result);
+            $('#total').attr('value', formatRupiah(result));
         }
 
         $('#bayar').keyup(function(e) {
+            let result = 0;
             let totalBayar = $('#total').val();
             let bayar = $(this).val();
-            let result = bayar - totalBayar;
-            $('#kembalian').attr('value', result)
+
+            // console.log(bayar)
+
+            let totalFilter = convertFromRupiah(totalBayar);
+            let bayarFilter = convertFromRupiah(bayar);
+
+            let numTotal = Number(totalFilter);
+            let numBayar = Number(bayarFilter);
+            // console.log(bayarFilter);
+            // console.log(totalFilter);
+
+            result = numBayar - numTotal;
+            // console.log(result)
+            if (numTotal > numBayar) {
+                $('#kembalian').attr('value', '0')
+            } else {
+                $('#kembalian').attr('value', formatRupiah(result))
+            }
         })
 
         function detailTransaksi(id) {
@@ -554,6 +673,48 @@
                     $('#jumlah-keluar-return').attr('value', data.jumlah_keluar);
                 }
             })
+        }
+
+        function addCard(id_masuk, id_produk) {
+
+            // let id = $(this).data('id');
+            // let id_masuk = $(this).data('idmasuk');
+            // console.log(id)
+            let namaBarang = $(`#namaProduk[data-id='${id_produk}']`).data('data');
+            console.log(namaBarang)
+            let hargaBarang = $(`#hargaProduk[data-id='${id_produk}']`).data('data');
+            let rupiahHarga = formatRupiah(hargaBarang);
+            let jumlah_masuk = $(`#qtyProduk[data-id='${id_produk}']`).data('data');
+
+            let row = `
+                <tr data-id='${id_produk}'>
+                                        <td>
+                                            ${id_produk}
+                                            <input type='hidden' name='id_produk[]' value='${id_produk}'>
+                                            <input type='hidden' name='id_masuk[]' value='${id_masuk}'>
+                                        </td>
+                                         <td>${namaBarang}</td>
+                                         <td>${rupiahHarga}<input type='hidden' name='harga_keluar[]' value='${hargaBarang}'></td>
+                                         <td>
+                                             <div class="form-group">
+                                             <input type="number" min="0" class="form-control" id="jumlah-keluar" data-id="${id_produk}" name="jumlah_keluar[]" onkeyup='hitungSubTotal(${id_produk})' required>
+                                             </div>
+                                             <input type='hidden' name='qty_produk[]' value='${jumlah_masuk}'>
+                                         </td>
+                                         <td>
+                                            <div class="form-group">
+                                             <input type="text" class="form-control" id="total_harga_keluar" data-id="${id_produk}" name="total_harga_keluar[]"  required readonly>
+                                             </div>
+                                         </td>
+                                         <td>
+                                            <button id='btnRemoveCard' data-id='${id_produk}' class='on-default default-row btn btn-danger' data-toggle='modal' data-target='#modal-removeCard'>
+                                                <i class='ti-trash'></i>
+                                            </button>
+                                         </td>
+                                     </tr>
+                `;
+            $('.list-card').html(row);
+            $(`.btnAddCard[data-id='${id_produk}']`).attr('disabled', true)
         }
     </script>
 

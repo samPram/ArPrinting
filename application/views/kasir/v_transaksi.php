@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title"><b>Form Transaksi</b></h4>
                         <form method="POST" id="formTransaksi">
@@ -18,9 +18,9 @@
                                 <thead>
                                     <th>Id</th>
                                     <th>Nama Barang</th>
-                                    <th>Harga</th>
+                                    <th>Harga (Rp.)</th>
                                     <th>Qty</th>
-                                    <th>Sub Total</th>
+                                    <th>Sub Total (Rp.)</th>
                                     <th>Aksi</th>
                                 </thead>
                                 <tbody class="list-card">
@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label for="total">Total Bayar (Rp.)</label>
                                 <!-- <input type="text" class="form-control" id="total" name="total" data-affixes-stay="true" data-thousands="." data-decimal="," data-precision="0" disabled> -->
-                                <input type="number" class="form-control" id="total" name="total" value="0" readonly>
+                                <input type="text" class="form-control" id="total" name="total" value="0" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="bayar">Bayar (Rp.)</label>
@@ -45,20 +45,43 @@
                     </div>
 
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <div class="card-box table-responsive">
                         <h4 class="m-t-0 header-title"><b>List Barang</b></h4>
-                        <form>
+                        <!-- <form>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="barangSearch" placeholder="Search">
                             </div>
-                        </form>
+                        </form> -->
 
-                        <div class="row">
+                        <div class="row" id="listBarang">
                             <?php foreach ($data as $val) : ?>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 mobiles text-center">
+                                    <div class="product-list-box bg-lightdark thumb">
+                                        <img src="<?= base_url('uploads/' . $val['image']); ?>" class="thumb-img" alt="work-thumbnail">
+
+
+                                        <div class="detail">
+                                            <h4 class="">
+                                                <p id="namaProduk" data-data="<?= $val['nama_produk']; ?>" data-id="<?= $val['id_produk']; ?>">
+                                                    <?= $val['nama_produk']; ?>
+                                                </p>
+                                            </h4>
+
+                                            <h5 class=""> <span class="badge" id="qtyProduk" data-data="<?= $val['jumlah_masuk']; ?>" data-id="<?= $val['id_produk']; ?>">
+                                                    <?= $val['jumlah_masuk']; ?>
+                                                </span></h5>
+                                            <p id="hargaProduk" data-id="<?= $val['id_produk']; ?>" data-data="<?= $val['harga_masuk']; ?>">Rp. <?= number_format($val['harga_masuk'], 0, '', '.'); ?>
+                                            </p>
+
+                                            <button class="btn btn-primary btnAddCard" data-idmasuk="<?= $val['id_masuk']; ?>" data-id='<?= $val['id_produk']; ?>' <?php if ($val['jumlah_masuk'] == 0) : echo 'disabled';
+                                                                                                                                                                    endif; ?>>Tambah</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-sm-4">
                                     <div class="panel panel-info text-center">
-                                        <!-- <div class="panel-heading">Panel Heading</div> -->
                                         <div class="panel-body">
                                             <p id="namaProduk" data-data="<?= $val['nama_produk']; ?>" data-id="<?= $val['id_produk']; ?>">
                                                 <?= $val['nama_produk']; ?>
@@ -74,7 +97,7 @@
                                                                                                                                                                     endif; ?>>Tambah</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             <?php endforeach; ?>
                         </div>
 

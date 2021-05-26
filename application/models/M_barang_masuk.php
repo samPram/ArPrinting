@@ -41,9 +41,35 @@ class M_barang_masuk extends CI_Model
   {
     // SELECT a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk FROM barang_masuk a JOIN ms_produk b ON b.id_produk = a.id_produk WHERE a.jumlah_masuk NOT IN(0) GROUP by id_produk ORDER BY tgl_masuk ASC
 
-    $this->db->select('a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk');
+    $this->db->select('a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk, b.image');
     $this->db->from('barang_masuk a');
     $this->db->join('ms_produk b', 'b.id_produk = a.id_produk');
+    $this->db->where_not_in('a.jumlah_masuk', 0);
+    $this->db->group_by('a.id_produk');
+    $this->db->order_by('a.tgl_masuk', 'ASC');
+    return $this->db->get()->result_array();
+  }
+
+  public function tampil_searchStok($data)
+  {
+    $this->db->select('a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk, b.image');
+    $this->db->from('barang_masuk a');
+    $this->db->join('ms_produk b', 'b.id_produk = a.id_produk');
+    $this->db->like('b.nama_produk', $data['nama_produk']);
+    $this->db->where_not_in('a.jumlah_masuk', 0);
+    $this->db->group_by('a.id_produk');
+    $this->db->order_by('a.tgl_masuk', 'ASC');
+    return $this->db->get()->result_array();
+  }
+
+  public function tampil_stokCard($data)
+  {
+    // SELECT a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk FROM barang_masuk a JOIN ms_produk b ON b.id_produk = a.id_produk WHERE a.jumlah_masuk NOT IN(0) GROUP by id_produk ORDER BY tgl_masuk ASC
+
+    $this->db->select('a.id_masuk, a.id_produk, a.tgl_masuk, a.jumlah_masuk, a.harga_masuk, a.total_harga_masuk, b.nama_produk, b.image');
+    $this->db->from('barang_masuk a');
+    $this->db->join('ms_produk b', 'b.id_produk = a.id_produk');
+    $this->db->where_in('a.id_masuk', $data);
     $this->db->where_not_in('a.jumlah_masuk', 0);
     $this->db->group_by('a.id_produk');
     $this->db->order_by('a.tgl_masuk', 'ASC');

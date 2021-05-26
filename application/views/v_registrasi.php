@@ -119,6 +119,13 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <p>Already have an account <a href="<?= base_url(); ?>Auth" class="text-primary m-l-5"><b>Log In</b></a></p>
+
+      </div>
+    </div>
   </div>
 
 

@@ -32,6 +32,14 @@ class Transaksi extends CI_Controller
 		}
 	}
 
+	/* Execute search data barang */
+	public function getSearchStok($nama = null)
+	{
+		$data['data'] = $this->M_barang_masuk->tampil_searchStok(['nama_produk' => $nama]);
+		echo json_encode($data['data']);
+		return;
+	}
+
 	/* Execute data barang by Id Produk */
 	public function list_card($id = null)
 	{
@@ -75,6 +83,15 @@ class Transaksi extends CI_Controller
 		return;
 	}
 
+	/* show total pendapatan per hari ini */
+	public function getTotalDay()
+	{
+		$data = ['date' => date('Y-m-d')];
+		$result['data'] = $this->M_transaksi->tampil_totalDay($data);
+		echo json_encode($result['data']);
+		return;
+	}
+
 	/* add barang transaksi */
 	public function add()
 	{
@@ -85,9 +102,18 @@ class Transaksi extends CI_Controller
 			/* DATA TRANSAKSI */
 			$id_transaksi = date('YmdHis');
 			$id_user = $this->session->userdata('id_user');
-			$bayar = htmlspecialchars($this->input->post('bayar', true));
-			$total = htmlspecialchars($this->input->post('total', true));
-			$kembalian = htmlspecialchars($this->input->post('kembalian', true));
+			$bayar = str_replace('.', '', $this->input->post('bayar', true));
+			$total = str_replace('.', '', $this->input->post('total', true));
+			$kembalian = str_replace('.', '', $this->input->post('kembalian', true));
+
+			if ($total > $bayar) {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				Failed insert data!
+		</div>');
+				echo base_url() . '/Transaksi';
+				die;
+			}
 
 			$data = [
 				'id_transaksi' => $id_transaksi,
@@ -98,14 +124,32 @@ class Transaksi extends CI_Controller
 				'kembali' => $kembalian
 			];
 
+			// echo json_encode($data);
+			// return;
+			// die();
+
 			/* DATA BARANG KELUAR */
 			$id_masuk = $this->input->post('id_masuk', true);
 			$id_produk = $this->input->post('id_produk', true);
-			$harga_keluar = $this->input->post('harga_keluar', true);
+			$harga_keluar = str_replace('.', '', $this->input->post('harga_keluar', true));
+			$jumlah_masuk = $this->input->post('qty_produk', true);
 			$jumlah_keluar = $this->input->post('jumlah_keluar', true);
-			$total_harga_keluar = $this->input->post('total_harga_keluar', true);
+			$total_harga_keluar = str_replace('.', '', $this->input->post('total_harga_keluar', true));
 
-			$stok = $this->M_barang_masuk->tampil_stok($id_masuk);
+			if (!$id_masuk) {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				Failed insert data!
+		</div>');
+				echo base_url() . '/Transaksi';
+				die;
+			}
+
+			$stok = $this->M_barang_masuk->tampil_stokCard($id_masuk);
+
+			// echo json_encode($stok);
+			// return;
+			// die();
 
 			$result = [];
 			for ($i = 0; $i < count($id_produk); $i++) {
@@ -119,6 +163,25 @@ class Transaksi extends CI_Controller
 			}
 
 			for ($i = 0; $i < count($jumlah_keluar); $i++) {
+				if ($jumlah_keluar[$i] == 0) {
+					$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					Failed insert data!
+			</div>');
+					echo base_url() . '/Transaksi';
+					// break;
+					die;
+				}
+
+				if ($jumlah_keluar[$i] > $jumlah_masuk[$i]) {
+					$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					Failed insert data!
+			</div>');
+					echo base_url() . '/Transaksi';
+					// break;
+					die;
+				}
 				$result[$i]['jumlah_keluar'] = $jumlah_keluar[$i];
 			}
 
@@ -132,8 +195,9 @@ class Transaksi extends CI_Controller
 				$dataMasuk[$i]['jumlah_masuk'] = $stok[$i]['jumlah_masuk'] -= $result[$i]['jumlah_keluar'];
 			}
 
-			// echo json_encode($coba);
+			// echo json_encode($result);
 			// return;
+			// die();
 			if ($this->M_transaksi->tambah_data($data) > 0 && $this->M_barang_keluar->tambah_data($result) > 0 && $this->M_barang_masuk->ubah_stok_masuk($dataMasuk) > 0) {
 
 				$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
