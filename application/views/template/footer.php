@@ -127,15 +127,14 @@
                 precision: 0
             });
 
-            // $("#kembalian").maskMoney({
-            //     thousands: '.',
-            //     decimal: ',',
-            //     affixesStay: false,
-            //     precision: 0
-            // });
-
             /* Disable button when add new barang */
             $('#btnAddBarangMasuk').attr('disabled', true);
+
+            /* Disable button when print data */
+            $('#btnPrintPdf').attr('disabled', true);
+
+            /* Disable button when print data detail transaksi */
+            $('#btnPrintDetailTransaksi').attr('disabled', true);
 
             /* Execute delete with modal */
             $('#delete-modal').on('show.bs.modal', function(e) {
@@ -315,9 +314,11 @@
 
             /* Request barang keluar by Id transaction */
             $('.btnViewBarangKeluar').click(function(e) {
-                $(`.btnViewBarangKeluar`).attr('disabled', false);
-                $('.data-viewBarangKeluar').empty();
                 let id = $(this).data('id');
+                $('#btnPrintDetailTransaksi').attr('disabled', false);
+                $(`.btnViewBarangKeluar`).attr('disabled', false);
+                $('#btnPrintDetailTransaksi').attr('data-id', id);
+                $('.data-viewBarangKeluar').empty();
                 $.ajax({
                     url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
                     type: 'GET',
@@ -333,8 +334,8 @@
                                 <td>${i++}</td>
                                 <td>${element.nama_produk}</td>
                                 <td>${element.jumlah_keluar}</td>
-                                <td>Rp. ${harga}</td>
-                                <td>Rp. ${total}</td>
+                                <td>${harga}</td>
+                                <td>${total}</td>
                             </tr>
                             `;
                         });
@@ -560,6 +561,82 @@
                         $('#listBarang').html(row);
                     }
                 })
+            })
+
+            $('.btnViewPersediaan').click(function(e) {
+                $(`.btnViewPersediaan`).attr('disabled', false);
+                $('.data-persediaan').empty();
+                let id = $(this).data('id');
+                let nama = $(this).data('nama');
+
+                $('#btnPrintPdf').attr('data-id', id);
+                $('#btnPrintPdf').attr('data-nama', nama);
+                $(`#btnPrintPdf[data-id='${id}']`).attr('disabled', false);
+                $.ajax({
+                    url: `<?= base_url(); ?>Persediaan_barang/getPersediaan/${id}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // console.log(data)
+                        let row = ``;
+                        let i = 0;
+                        data.forEach(element => {
+                            let jumlah_masuk = element.id_keluar == null ? element.current_masuk : 0;
+                            let tanggal = element.id_keluar ? element.tgl_keluar : element.tgl_masuk;
+                            row += `
+                                <tr>
+                                    <td>${i++}</td>
+                                    <td>${tanggal}</td>
+                                    <td>${jumlah_masuk}</td>
+                                    <td>${element.harga_masuk}</td>
+                                    <td>${element.total_harga_masuk}</td>
+                                    <td>${element.jumlah_keluar}</td>
+                                    <td>${element.harga_keluar}</td>
+                                    <td>${element.total_harga_keluar}</td>
+                                    <td>${element.current_masuk}</td>
+                                    <td>${element.harga_masuk}</td>
+                                    <td>${element.total}</td>
+
+                                </tr>
+                            `;
+                        });
+
+                        $('.data-persediaan').html(row);
+                        $(`.btnViewPersediaan[data-id='${id}']`).attr('disabled', true);
+                    }
+                })
+            })
+
+            /* print laporan kartu persediaan barang */
+            $('#btnPrintPdf').click(function(e) {
+                let nama = $(this).data('nama');
+                let id = $(this).data('id');
+                window.location.href = `<?= base_url(); ?>Persediaan_barang/create_pdf/${id}/${nama}`;
+            })
+
+            /* print laporan transaksi */
+            $('#btnPrintTransaksi').click(function(e) {
+                let link = $(this).data('href');
+                let start = $(`input[id='start']`).val();
+                let end = $(`input[id='end']`).val();
+
+                if (start && end) {
+                    let startConvert = start.replace(/\//g, '-');
+                    let endConvert = end.replace(/\//g, '-');
+                    // console.log(startConvert);
+                    link += `/${startConvert}/${endConvert}`;
+                    window.location.href = link;
+                } else {
+                    window.location.href = link;
+                }
+            })
+
+            $('#btnPrintDetailTransaksi').click(function(e) {
+                let link = $(this).data('href');
+                let id = $(this).data('id');
+                link += `/${id}`;
+                window.location.href = link;
+
             })
 
         });

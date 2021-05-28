@@ -29,7 +29,7 @@
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="ti-file"></i> <span> Laporan</span> <span class="menu-arrow"></span> </a>
                     <ul class="list-unstyled">
-                        <li><a href="<? ?>">Kartu Persedian Barang</a></li>
+                        <li><a href="<?= base_url(); ?>Persediaan_barang">Kartu Persedian Barang</a></li>
                         <li><a href="<?= base_url(); ?>Laporan">Laporan Penjualan</a></li>
                     </ul>
                 </li>
