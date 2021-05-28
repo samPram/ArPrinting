@@ -76,6 +76,14 @@ class M_barang_masuk extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /* SELECT MAX ID BARANG MASUK */
+  public function tampil_maxId()
+  {
+    $this->db->select_max('id_masuk');
+    $this->db->from('barang_masuk');
+    return $this->db->get()->row_array();
+  }
+
   /* INSERT DATA BARANG MASUK */
   public function tambah_data($data)
   {

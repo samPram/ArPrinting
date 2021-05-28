@@ -11,6 +11,7 @@ class Transaksi extends CI_Controller
 		$this->load->model('M_barang_keluar');
 		$this->load->model('M_barang_masuk');
 		$this->load->model('M_view_transaksi');
+		$this->load->model('M_histori_masuk');
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
 	}
@@ -199,6 +200,24 @@ class Transaksi extends CI_Controller
 			// return;
 			// die();
 			if ($this->M_transaksi->tambah_data($data) > 0 && $this->M_barang_keluar->tambah_data($result) > 0 && $this->M_barang_masuk->ubah_stok_masuk($dataMasuk) > 0) {
+
+				$id_keluar = $this->M_barang_keluar->tampil_maxId($id_transaksi);
+
+				$dataHistori = [];
+				for ($i = 0; $i < count($id_masuk); $i++) {
+					$dataHistori[$i] = [
+						'id_masuk' => $id_masuk[$i],
+						'current_masuk' => $dataMasuk[$i]['jumlah_masuk'],
+						'berkurang' => $jumlah_keluar[$i],
+						'id_keluar' => $id_keluar[$i]['id_keluar']
+					];
+				}
+
+				// echo json_encode($id_keluar);
+				// return;
+				// die();
+
+				$this->M_histori_masuk->tambah_many($dataHistori);
 
 				$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

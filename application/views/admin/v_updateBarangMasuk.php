@@ -24,6 +24,7 @@
             </div>
             <div class="form-group">
               <label for="jumlah_masuk">Jumlah</label>
+              <input type="hidden" name="current_jumlah_masuk" value="<?= $data['jumlah_masuk']; ?>" required>
               <input type="text" class="vertical-spin from-control" id="jumlah-masuk" name="jumlah_masuk" value="<?= $data['jumlah_masuk']; ?>" required>
             </div>
             <div class="form-group">

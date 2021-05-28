@@ -49,6 +49,16 @@ class M_barang_keluar extends CI_Model
     return $this->db->get()->row_array();
   }
 
+  /* SELECT MAX ID KELUAR */
+  public function tampil_maxId($id_transaksi)
+  {
+    $this->db->select('id_keluar');
+    $this->db->from('barang_keluar');
+    $this->db->where('id_transaksi', $id_transaksi);
+    $this->db->order_by('id_keluar', 'ASC');
+    return $this->db->get()->result_array();
+  }
+
   /* INSERT DATA BARANG KELUAR */
   public function tambah_data($data)
   {
