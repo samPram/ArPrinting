@@ -111,7 +111,7 @@ class Persediaan_barang extends CI_Controller
       $i = 0;
       // Set some content to print
       $html = '
-              <h1 align="center">Laporan Kartu Persedian Barang<br>UD Nafi</h1>
+              <h1 align="center">Laporan Kartu Persedian Barang<br>UD Nafi Kota Madiun</h1>
       
         <table>
           <tr>
@@ -128,8 +128,8 @@ class Persediaan_barang extends CI_Controller
                       <tr>
                         <th widht="5%" rowspan="2">No</th>
                         <th rowspan="2">Tanggal</th>
-                        <th colspan="3">Barang Masuk</th>
-                        <th colspan="3">Barang Keluar</th>
+                        <th colspan="3">Pembelian</th>
+                        <th colspan="3">Harga Pokok Penjualan</th>
                         <th colspan="3">Persediaan</th>
                       </tr>
                       <tr>
@@ -191,7 +191,7 @@ class Persediaan_barang extends CI_Controller
 
       // Close and output PDF document
       // This method has several options, check the source code documentation for more information.
-      $pdf->Output('example_001.pdf', 'I');
+      $pdf->Output('kartu_persediaan_barang.pdf', 'I');
 
       //============================================================+
       // END OF FILE

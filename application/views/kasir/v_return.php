@@ -12,7 +12,7 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="card-box table-responsive">
-              <h4 class="m-t-0 header-title"><b>DATA RETURN</b></h4>
+              <h4 class="m-t-0 header-title"><b>DATA RETUR</b></h4>
               <!-- Full width modal -->
               <table id="datatable" class="table table-striped table-bordered">
                 <thead>
@@ -21,8 +21,8 @@
                     <th>Id Transaksi</th>
                     <th>Nama Barang</th>
                     <th>Jumlah Return</th>
-                    <th>Harga</th>
-                    <th>Total</th>
+                    <th>Harga (Rp. )</th>
+                    <th>Total (Rp. )</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -34,8 +34,8 @@
                       <td><?= $val['id_transaksi']; ?></td>
                       <td><?= $val['nama_produk']; ?></td>
                       <td><?= $val['jumlah_barang']; ?></td>
-                      <td><?= $val['harga_barang']; ?></td>
-                      <td><?= $val['total_barang']; ?></td>
+                      <td><?= number_format($val['harga_barang'], 0, '', '.'); ?></td>
+                      <td><?= number_format($val['total_barang'], 0, '', '.'); ?></td>
                       <td>
 
                         <button data-id="<?= $val['id_return']; ?>" class='on-default default-row btn btn-primary btnUpdateReturn' data-toggle='modal' data-target='#modal-return-update'>

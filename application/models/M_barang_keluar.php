@@ -28,12 +28,12 @@ class M_barang_keluar extends CI_Model
   /* SELECT BARANG BEST SELL PER DAY */
   public function tampil_bestSell($data)
   {
-    $this->db->select('b.nama_produk as barang');
+    $this->db->select('a.*, b.nama_produk');
     $this->db->from('barang_keluar a');
     $this->db->join('ms_produk b', 'b.id_produk = a.id_produk');
     $this->db->where('DATE(a.tgl_keluar)', $data['date']);
-    $this->db->where('a.jumlah_keluar', 'select MAX(jumlah_keluar) from barang_keluar where date(tgl_keluar) = current_date()');
-    return $this->db->get()->row_array();
+    $this->db->where('a.jumlah_keluar=(select MAX(jumlah_keluar) from barang_keluar where date(tgl_keluar) = current_date())');
+    return $this->db->get()->result_array();
   }
 
   /* SELECT HIGH TOTAL PER DAY */

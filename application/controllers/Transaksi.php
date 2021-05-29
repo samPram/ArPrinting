@@ -16,7 +16,7 @@ class Transaksi extends CI_Controller
 		$this->load->library('pagination');
 	}
 
-	/* view all data transaksi */
+	/* tampil transaksi kasir user */
 	public function index($id = null)
 	{
 		if ($this->session->userdata('level') == 'Kasir') {
@@ -32,24 +32,27 @@ class Transaksi extends CI_Controller
 			$this->load->view('404_page');
 		}
 	}
+	/* END tampil kasir */
 
-	/* Execute search data barang */
+	/* Proses tampil list barang by search */
 	public function getSearchStok($nama = null)
 	{
 		$data['data'] = $this->M_barang_masuk->tampil_searchStok(['nama_produk' => $nama]);
 		echo json_encode($data['data']);
 		return;
 	}
+	/* END tampil list search */
 
-	/* Execute data barang by Id Produk */
+	/* Proses tampil list card */
 	public function list_card($id = null)
 	{
 		$data['list']  = $this->M_barang->tampil_data(['id_produk' => $id]);
 		echo json_encode($data['list']);
 		return;
 	}
+	/* END tampil list card */
 
-	/* show all transaksi */
+	/* Proses tampil data transaksi admin */
 	public function getAllTransaction()
 	{
 		if ($this->session->userdata('level') == 'Admin') {
@@ -63,8 +66,9 @@ class Transaksi extends CI_Controller
 			$this->load->view('404_page');
 		}
 	}
+	/* END tampil data transaksi */
 
-	/* show data transaksi by Id transaksi */
+	/* Proses tampil data detail transaksi */
 	public function detailTransaction($id = null)
 	{
 		$data = [
@@ -75,14 +79,16 @@ class Transaksi extends CI_Controller
 		echo json_encode($data['detail']);
 		return;
 	}
+	/* END proses tampil data detail */
 
-	/* show count all data transaksi */
+	/* Proses tampil data jumlah transakasi */
 	public function getCountAll()
 	{
 		$data['data'] = $this->M_transaksi->tampil_getCountAll();
 		echo json_encode($data['data']);
 		return;
 	}
+	/* END tampil data jumlah */
 
 	/* show total pendapatan per hari ini */
 	public function getTotalDay()
@@ -92,6 +98,15 @@ class Transaksi extends CI_Controller
 		echo json_encode($result['data']);
 		return;
 	}
+
+	/* show tampil data jumlah transaksi hari ini */
+	public function getCountDay()
+	{
+		$data = $this->M_transaksi->tampil_CountDay();
+		echo json_encode($data);
+		return;
+	}
+	/* END tampil data jumlah */
 
 	/* add barang transaksi */
 	public function add()

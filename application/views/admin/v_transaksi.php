@@ -21,7 +21,7 @@
                     <th>Id Transaksi</th>
                     <th>Tanggal</th>
                     <th>Jumlah</th>
-                    <th>Total</th>
+                    <th>Total (Rp. )</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -33,7 +33,7 @@
                       <td><?= $val['id_transaksi']; ?></td>
                       <td><?= $val['tanggal']; ?></td>
                       <td><?= $val['jumlah_item']; ?> item</td>
-                      <td>Rp. <?= number_format($val['total'], 0, '', '.'); ?></td>
+                      <td><?= number_format($val['total'], 0, '', '.'); ?></td>
                       <td>
 
                         <button class='on-default edit-row btn btn-primary btndetailTransaksi' data-id="<?= $val['id_transaksi']; ?>">
@@ -59,9 +59,9 @@
                   <tr>
                     <th>No</th>
                     <th>Nama Produk</th>
-                    <th>Harga</th>
+                    <th>Harga (Rp. )</th>
                     <th>Jumlah</th>
-                    <th>Sub Total</th>
+                    <th>Sub Total (Rp. )</th>
                   </tr>
                 </thead>
                 <tbody class="data-detail">

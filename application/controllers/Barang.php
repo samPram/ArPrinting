@@ -11,6 +11,7 @@ class Barang extends CI_Controller
                 $this->load->library('form_validation');
         }
 
+        /* tampil barang for admin */
         public function index()
         {
                 if ($this->session->userdata('level') == 'Admin') {
@@ -30,8 +31,9 @@ class Barang extends CI_Controller
                         $this->load->view('404_page');
                 }
         }
+        /* END tampil barang for admin */
 
-        /* show data barang for kasir page */
+        /* tampil barang for kasir */
         public function view()
         {
                 if ($this->session->userdata('level') == 'Kasir') {
@@ -46,8 +48,9 @@ class Barang extends CI_Controller
                         $this->load->view('404_page');
                 }
         }
+        /* END tampil barang for kasir */
 
-        /* show data by Id Produk */
+        /* Proses tampil data barang by Id produk */
         public function showById($id = null)
         {
                 $data = ['id_produk' => $id];
@@ -55,16 +58,18 @@ class Barang extends CI_Controller
                 echo json_encode($result['data']);
                 return;
         }
+        /* END proses tampil data */
 
-        /* show count all row data produk */
+        /* Proses tampil jumlah data barang */
         public function getCountAll()
         {
                 $data['data'] = $this->M_barang->tampil_getCountAll();
                 echo json_encode($data['data']);
                 return;
         }
+        /* END proses tampil jumlah */
 
-        /* add data produk */
+        /* proses add data barang */
         public function add()
         {
                 $config['upload_path'] = './uploads';
@@ -120,8 +125,9 @@ class Barang extends CI_Controller
                         $this->load->view('404_page');
                 }
         }
+        /* End proses add data */
 
-        /* delete data produk by Id Produk */
+        /* proses delete data barang by Id Produk */
         public function delete($id = null)
         {
                 if ($this->M_barang->hapus_data($id) > 0) {
@@ -137,8 +143,9 @@ class Barang extends CI_Controller
                 }
                 redirect('barang');
         }
+        /* END proses delete data produk */
 
-        /* update data produk by Id Produk */
+        /* proses update data produk by Id Produk */
         public function update($id = null)
         {
                 $config['upload_path'] = './uploads';
@@ -192,4 +199,5 @@ class Barang extends CI_Controller
                         redirect('barang');
                 }
         }
+        /* END proses update data */
 }

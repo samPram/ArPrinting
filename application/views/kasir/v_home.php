@@ -13,14 +13,14 @@
                     <div class="bar-widget">
                         <div class="table-box">
                             <div class="table-detail">
-                                <div class="iconbox bg-info">
-                                    <i class="icon-wallet"></i>
+                                <div class="iconbox bg-custom">
+                                    <i class="icon-basket"></i>
                                 </div>
                             </div>
 
                             <div class="table-detail">
-                                <h4 class="m-t-0 m-b-5"><b id="totalPendapatan">Rp. </b></h4>
-                                <p class="text-muted m-b-0 m-t-0">Total Pendapatan Hari ini</p>
+                                <h4 class="m-t-0 m-b-5"><b id="jumlahTransaksi"></b></h4>
+                                <p class="text-muted m-b-0 m-t-0">Jumlah transakasi hari ini</p>
                             </div>
 
 
@@ -34,14 +34,14 @@
                     <div class="bar-widget">
                         <div class="table-box">
                             <div class="table-detail">
-                                <div class="iconbox bg-custom">
-                                    <i class="icon-badge"></i>
+                                <div class="iconbox bg-info">
+                                    <i class="icon-wallet"></i>
                                 </div>
                             </div>
 
                             <div class="table-detail">
-                                <h4 class="m-t-0 m-b-5"><b id="barangTerlaris"></b></h4>
-                                <p class="text-muted m-b-0 m-t-0">Barang Terlaris Hari ini</p>
+                                <h4 class="m-t-0 m-b-5"><b id="totalPendapatan">Rp. </b></h4>
+                                <p class="text-muted m-b-0 m-t-0">Total Pendapatan Hari ini</p>
                             </div>
 
 
@@ -70,6 +70,38 @@
                 </div>
             </div>
         </div>
-        <!-- end row -->
+
+        <div class="row">
+            <div class="col">
+                <div class="card-box">
+                    <h4 class="text-dark header-title m-t-0">Barang terlaris hari ini</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-actions-bar">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Orders</th>
+                                    <th>Total (Rp. )</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
+                                <?php foreach ($data as $val) : ?>
+                                    <tr>
+                                        <td><?= $i++; ?></td>
+                                        <td><?= $val['nama_produk']; ?></td>
+                                        <td><b><?= $val['jumlah_keluar']; ?> Item</b></td>
+                                        <td><?= number_format($val['total_harga_keluar'], 0, '', '.'); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>

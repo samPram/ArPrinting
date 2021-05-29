@@ -1,4 +1,6 @@
 <?php
+
+/* First call when app running */
 class Auth extends CI_Controller
 {
 
@@ -10,6 +12,7 @@ class Auth extends CI_Controller
 		$this->load->library('form_validation');
 	}
 
+	/* tampil login */
 	function index()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -20,7 +23,9 @@ class Auth extends CI_Controller
 			$this->_login();
 		}
 	}
+	/* END tampil login */
 
+	/* Proses login */
 	private function _login()
 	{
 		$username = ($this->input->post('username', true) == null) ? null :  htmlspecialchars($this->input->post('username', TRUE), ENT_QUOTES);
@@ -38,7 +43,7 @@ class Auth extends CI_Controller
 		} else {
 			if ($result['status_user'] === 'Aktif') {
 				if ($result['level'] === 'Admin') {
-					# code...
+
 					$this->session->set_userdata($result);
 					redirect('home_admin');
 				} else {
@@ -51,7 +56,9 @@ class Auth extends CI_Controller
 			}
 		}
 	}
+	/* END proses login */
 
+	/* proses registrasi */
 	public function registrasi()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -84,10 +91,13 @@ class Auth extends CI_Controller
 			redirect('auth');
 		}
 	}
+	/* END proses registrasi */
 
+	/* proses logout */
 	function logout()
 	{
 		$this->session->sess_destroy();
 		redirect('auth');
 	}
+	/* END proses logout */
 }

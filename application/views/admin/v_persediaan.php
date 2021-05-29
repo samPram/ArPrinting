@@ -63,14 +63,14 @@
                     <th>No</th>
                     <th>Tanggal Masuk</th>
                     <th>Jumlah Masuk</th>
-                    <th>Harga Masuk</th>
-                    <th>Total Masuk</th>
+                    <th>Harga Masuk (Rp. )</th>
+                    <th>Total Masuk (Rp. )</th>
                     <th>Jumlah Keluar</th>
-                    <th>Harga Keluar</th>
-                    <th>Total Keluar</th>
+                    <th>Harga Keluar (Rp. )</th>
+                    <th>Total Keluar (Rp. )</th>
                     <th>Persediaan</th>
-                    <th>Harga</th>
-                    <th>Total</th>
+                    <th>Harga (Rp. )</th>
+                    <th>Total (Rp. )</th>
                   </tr>
                 </thead>
                 <tbody class="data-persediaan">

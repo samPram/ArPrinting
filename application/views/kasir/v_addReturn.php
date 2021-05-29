@@ -22,9 +22,9 @@
                     <th>Tanggal</th>
                     <th>User Kasir</th>
                     <th>Jumlah Barang</th>
-                    <th>Bayar</th>
-                    <th>Total Bayar</th>
-                    <th>Kembalian</th>
+                    <th>Bayar (Rp. )</th>
+                    <th>Total Bayar (Rp. )</th>
+                    <th>Kembalian (Rp. )</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -37,12 +37,15 @@
                       <td><?= $val['tanggal']; ?></td>
                       <td><?= $val['username']; ?></td>
                       <td><?= $val['jumlah_item']; ?></td>
-                      <td><?= $val['bayar']; ?></td>
-                      <td><?= $val['total']; ?></td>
-                      <td><?= $val['kembali']; ?></td>
+                      <td><?= number_format($val['bayar'], 0, '', '.');
+                          ?></td>
+                      <td><?= number_format($val['total'], 0, '', '.');
+                          ?></td>
+                      <td><?= number_format($val['kembali'], 0, '', '.');
+                          ?></td>
                       <td>
 
-                        <button data-id="<?= $val['id_transaksi']; ?>" class='on-default default-row btn btn-info btnDetailTransaksi'>
+                        <button data-id="<?= $val['id_transaksi']; ?>" class='on-default default-row btn btn-info btnDetailTransaksiReturn'>
                           <i class='ti-eye'></i></button>
                       </td>
                     </tr>
@@ -65,8 +68,8 @@
                     <th>No</th>
                     <th>Nama Barang</th>
                     <th>Jumlah Barang Keluar</th>
-                    <th>Harga Barang Keluar</th>
-                    <th>Total Harga Keluar</th>
+                    <th>Harga Barang Keluar (Rp. )</th>
+                    <th>Total Harga Keluar (Rp. )</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>

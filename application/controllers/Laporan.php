@@ -122,7 +122,7 @@ class Laporan extends CI_Controller
       $endPeriode = ($end) ? $endConvert : null;
       // Set some content to print
       $html = '
-              <h1 align="center">Laporan Transaksi Penjualan<br>UD Nafi</h1>
+              <h1 align="center">Laporan Transaksi Penjualan<br>UD Nafi Kota Madiun</h1>
         <table>
           <tr>
             <td width="10%">Periode</td>
@@ -267,7 +267,7 @@ class Laporan extends CI_Controller
     $i = 1;
     // Set some content to print
     $html = '
-              <h1 align="center">Laporan Detail Transaksi Penjualan<br>UD Nafi</h1>
+              <h1 align="center">Laporan Detail Transaksi Penjualan<br>UD Nafi Kota Madiun</h1>
         <table width="30%">
           <tr>
             <td>Id Transaksi</td>

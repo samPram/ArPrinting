@@ -31,6 +31,16 @@ class M_transaksi extends CI_Model
 		return $this->db->get()->row_array();
 	}
 
+	/* SELECT COUNT DATA TRANSAKSI PER DAY */
+	public function tampil_CountDay()
+	{
+		$this->db->select('COUNT(id_transaksi) as total');
+		$this->db->from('transaksi');
+		$this->db->where('DATE(tanggal)=current_date()');
+		return $this->db->get()->row_array();
+	}
+	/* END SELECT COUNT DATA */
+
 	/* INSERT DATA TRANSAKSI */
 	function tambah_data($data)
 	{

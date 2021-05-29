@@ -71,9 +71,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Tanggal Masuk</th>
-                                    <th>harga</th>
+                                    <th>harga (Rp. )</th>
                                     <th>Jumlah</th>
-                                    <th>Total</th>
+                                    <th>Total (Rp. )</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

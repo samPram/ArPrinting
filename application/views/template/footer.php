@@ -1,5 +1,5 @@
     <footer class="footer">
-        © 2019. AR Printing.
+        © 2021. UD Nafi.
     </footer>
     </div>
     </div>
@@ -79,6 +79,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            /* format table */
             $('#datatable').dataTable();
             $('#datatable-keytable').DataTable({
                 keys: true
@@ -112,7 +113,9 @@
             });
 
             $('#datatable2').dataTable();
+            /* END format tabel */
 
+            /* format input rupiah */
             $("#harga-masuk").maskMoney({
                 thousands: '.',
                 decimal: ',',
@@ -126,39 +129,36 @@
                 affixesStay: false,
                 precision: 0
             });
+            /* END format input rupiah */
 
-            /* Disable button when add new barang */
+            /* Disable button */
             $('#btnAddBarangMasuk').attr('disabled', true);
 
-            /* Disable button when print data */
             $('#btnPrintPdf').attr('disabled', true);
 
-            /* Disable button when print data detail transaksi */
             $('#btnPrintDetailTransaksi').attr('disabled', true);
+            /* END disable button */
 
-            /* Execute delete with modal */
+            /* Execute delete data */
             $('#delete-modal').on('show.bs.modal', function(e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
 
-            /* Execute delete data retur with modal */
             $('#modal-deleteReturn').on('show.bs.modal', function(e) {
                 $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             });
 
-            /* Execute delete list keranjang belanja  */
             $('#modal-removeCard').on('show.bs.modal', function(e) {
-                // $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
                 let id = $(e.relatedTarget).data('id');
                 $(this).find('.btn-ok').on('click', function(e) {
                     $(`tr[data-id='${id}']`).empty();
                     $(`.btnAddCard[data-id='${id}']`).attr('disabled', false)
                 });
             });
+            /* END execute delete data */
 
             /* Request detail data transaksi by Id transaksi */
             $('.btndetailTransaksi').on('click', function(e) {
-                // console.log('ok')
                 $('.data-detail').empty();
                 $(`.btndetailTransaksi`).attr('disabled', false);
                 let id = $(this).data('id');
@@ -167,7 +167,7 @@
                     url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
                     dataType: "json",
                     success: function(data) {
-                        console.log(data)
+
                         let i = 1;
                         let row = '';
                         data.forEach(element => {
@@ -176,9 +176,9 @@
                             row += `<tr>
                                     <td>${i++}</td>
                                     <td>${element.nama_produk}</td>
-                                    <td>Rp. ${harga}</td>
+                                    <td>${harga}</td>
                                     <td>${element.jumlah_keluar}</td>
-                                    <td>Rp. ${total}</td>
+                                    <td>${total}</td>
                                   
                                 </tr>`;
                         });
@@ -188,6 +188,7 @@
                 });
 
             })
+            /* END request data */
 
             /* Request data barang masuk by Id Produk */
             $('.btnBarangMasuk').on('click', function(e) {
@@ -203,15 +204,16 @@
                     success: function(data) {
                         let i = 1;
                         let row = '';
-                        // console.log(data)
                         data.forEach(element => {
+                            let hargaMasuk = formatRupiah(element.harga_masuk);
+                            let totalHarga = formatRupiah(element.total_harga_masuk);
                             row += `
                         <tr>
                             <td>${i++}</td>
                             <td>${element.tgl_masuk}</td>
-                            <td>${element.harga_masuk}</td>
+                            <td>${hargaMasuk}</td>
                             <td>${element.jumlah_masuk}</td>
-                            <td>${element.total_harga_masuk}</td>
+                            <td>${totalHarga}</td>
                             <td>
                             <a href='<?= base_url(); ?>Barang_masuk/tampil_update/${element.id_masuk}' class='on-default edit-row btn btn-primary btnUpdateBarangMasuk' class='col-sm-6 col-md-4 col-lg-3'>
                                                 <i class='ti-pencil'></i></a>
@@ -230,6 +232,7 @@
                     },
                 })
             })
+            /* END request data */
 
             /* Request insert data barang masuk */
             $('#btnAddBarangMasuk').on('click', function(e) {
@@ -242,14 +245,15 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        // console.log(data)
+
                         $('#id_produk').attr(`value`, `${data.id_produk}`)
                         $('#nama').attr(`value`, `${data.nama_produk}`)
                     }
                 })
             })
+            /* END request insert */
 
-            /* Auto multiplication harga and jumlah barang masuk */
+            /* Proses jumlah total harga barang masuk */
             $('#harga-masuk').keyup(function(e) {
                 let harga = $('#harga-masuk').val().replace(/\./g, '');
                 let jumlah = $('#jumlah-masuk').val();
@@ -257,11 +261,13 @@
                 let total = harga * jumlah;
                 $('#total-masuk').attr('value', total);
             })
+            /* END proses jumlah */
 
+            /* Proses tambah keranjang */
             $('.btnAddCard').on('click', function(e) {
                 let id = $(this).data('id');
                 let id_masuk = $(this).data('idmasuk');
-                // console.log(id)
+
                 let namaBarang = $(`#namaProduk[data-id='${id}']`).data('data');
                 let hargaBarang = $(`#hargaProduk[data-id='${id}']`).data('data');
                 let rupiahHarga = formatRupiah(hargaBarang);
@@ -297,20 +303,23 @@
                 $('.list-card').append(row);
                 $(`.btnAddCard[data-id='${id}']`).attr('disabled', true)
             });
+            /* END proses tambah keranjang */
 
+            /* Request insert data transaksi */
             $('#btnAddTransaction').click(function(e) {
-                // console.log();
+
                 var data = $('#formTransaksi').serialize();
                 $.ajax({
                     type: 'POST',
                     url: `<?= base_url(); ?>Transaksi/add`,
                     data: data,
                     success: function(data) {
-                        // console.log(data)
+
                         window.location.href = data;
                     }
                 })
             });
+            /* END request insert transaksi */
 
             /* Request barang keluar by Id transaction */
             $('.btnViewBarangKeluar').click(function(e) {
@@ -346,6 +355,7 @@
                 });
             })
 
+            /* Requst data transaksi by range date */
             $('#btnSubmitDateRange').click(function(e) {
                 $('#data-view').empty();
                 var data = $('#form-dateRange').serialize();
@@ -380,9 +390,11 @@
                     }
                 })
             })
+            /* END request data by range date */
 
-            $('.btnDetailTransaksi').click(function(e) {
-                $(`.btnDetailTransaksi`).attr('disabled', false);
+            /* Request data detail transaksi by Id transaksi */
+            $('.btnDetailTransaksiReturn').click(function(e) {
+                $(`.btnDetailTransaksiReturn`).attr('disabled', false);
                 $('.data-viewDetailTransaksi').empty();
                 let id = $(this).data('id');
                 $.ajax({
@@ -394,13 +406,15 @@
                         let row = ``;
                         let i = 1
                         data.forEach(element => {
+                            let hargaKeluar = formatRupiah(element.harga_keluar);
+                            let totalHarga = formatRupiah(element.total_harga_keluar);
                             row += `
                             <tr data-id='${element.id_keluar}'>
                                 <td>${i++}</td>
                                 <td>${element.nama_produk}</td>
                                 <td>${element.jumlah_keluar}</td>
-                                <td>${element.harga_keluar}</td>
-                                <td>${element.total_harga_keluar}</td>
+                                <td>${hargaKeluar}</td>
+                                <td>${totalHarga}</td>
                                 <td>
                                 <button data-id="${element.id_keluar}" class='on-default default-row btn btn-success btnDetailTranskasi' onclick='showByIdKeluar(${element.id_keluar})' data-toggle='modal' data-target='#modal-return-add'>
                           <i class='ti-plus'></i></button>
@@ -410,18 +424,22 @@
                         });
 
                         $('.data-viewDetailTransaksi').html(row);
-                        $(`.btnDetailTransaksi[data-id='${id}']`).attr('disabled', true);
+                        $(`.btnDetailTransaksiReturn[data-id='${id}']`).attr('disabled', true);
                     }
                 });
             })
+            /* END request data detail */
 
+            /* Proses total return */
             $('#jumlah-return').keyup(function(e) {
                 let hargaReturn = $('#harga-return').val();
                 let jumlahReturn = $('#jumlah-return').val();
                 let result = hargaReturn * jumlahReturn;
                 $('#total-return').attr('value', result);
             })
+            /* END proses */
 
+            /* Request data return by Id */
             $('.btnUpdateReturn').click(function(e) {
                 let id = $(this).data('id');
                 $.ajax({
@@ -442,8 +460,9 @@
                     }
                 })
             })
+            /* END request data */
 
-            /* Request total tabel master halaman admin */
+            /* Request admin home */
             $.ajax({
                 url: `<?= base_url(); ?>User/getCountAll`,
                 type: 'GET',
@@ -479,48 +498,51 @@
                     $('#totalRetur').text(data.total);
                 }
             });
+            /* END request admin home */
 
-            /* Request total pendapatan dan penjualan hari ini halaman kasir */
+            /* Request kasir home */
             $.ajax({
                 url: `<?= base_url(); ?>Transaksi/getTotalDay`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    // console.log(data);
+                    let total = formatRupiah(data['total']);
                     if (data['total'] == null) {
                         $('#totalPendapatan').append('0')
                     }
-                    $('#totalPendapatan').append(data['total'])
+                    $('#totalPendapatan').append(total)
                 }
             })
 
             $.ajax({
-                url: `<?= base_url(); ?>Barang_keluar/getBestSellDay`,
+                url: `<?= base_url(); ?>Transaksi/getCountDay`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    // console.log(data);
+
                     if (data == null) {
-                        $('#barangTerlaris').append('Belum ada Transaksi')
-                    } else {
-                        $('#barangTerlaris').append(data['nama_produk'])
+                        $('#jumlahTransaksi').text('0');
                     }
+                    $('#jumlahTransaksi').text(data.total + ' Transaksi');
                 }
-            })
+            });
+
             $.ajax({
                 url: `<?= base_url(); ?>Barang_keluar/getHighTotal`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    // console.log(data);
+                    let totalHarga = formatRupiah(data['total_harga_keluar']);
                     if (data == null) {
                         $('#penjualanTertinggi').append('0')
                     } else {
-                        $('#penjualanTertinggi').append(data['total_harga_keluar'])
+                        $('#penjualanTertinggi').append(totalHarga)
                     }
                 }
             })
+            /* END request kasir home */
 
+            /* Request data stok barang by name */
             $('#barangSearch').keyup(function(e) {
                 $('#listBarang').empty();
                 let search = $(this).val();
@@ -562,7 +584,9 @@
                     }
                 })
             })
+            /* END request data search */
 
+            /* Request data detail persedian barang */
             $('.btnViewPersediaan').click(function(e) {
                 $(`.btnViewPersediaan`).attr('disabled', false);
                 $('.data-persediaan').empty();
@@ -577,25 +601,32 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        // console.log(data)
+
                         let row = ``;
                         let i = 0;
                         data.forEach(element => {
                             let jumlah_masuk = element.id_keluar == null ? element.current_masuk : 0;
                             let tanggal = element.id_keluar ? element.tgl_keluar : element.tgl_masuk;
+
+                            let formatHargaMasuk = element.harga_masuk ? formatRupiah(element.harga_masuk) : 0;
+                            let formatTotalMasuk = element.total_harga_masuk ? formatRupiah(element.total_harga_masuk) : 0;
+                            let formatHargaKeluar = element.harga_keluar ? formatRupiah(element.harga_keluar) : 0;
+                            let formatTotalKeluar = element.total_harga_keluar ? formatRupiah(element.total_harga_keluar) : 0;
+                            let formatHarga = element.harga_masuk ? formatRupiah(element.harga_masuk) : 0;
+                            let formatTotal = element.total ? formatRupiah(element.total) : 0;
                             row += `
                                 <tr>
                                     <td>${i++}</td>
                                     <td>${tanggal}</td>
                                     <td>${jumlah_masuk}</td>
-                                    <td>${element.harga_masuk}</td>
-                                    <td>${element.total_harga_masuk}</td>
+                                    <td>${formatHargaMasuk}</td>
+                                    <td>${formatTotalMasuk}</td>
                                     <td>${element.jumlah_keluar}</td>
-                                    <td>${element.harga_keluar}</td>
-                                    <td>${element.total_harga_keluar}</td>
+                                    <td>${formatHargaKeluar}</td>
+                                    <td>${formatTotalKeluar}</td>
                                     <td>${element.current_masuk}</td>
-                                    <td>${element.harga_masuk}</td>
-                                    <td>${element.total}</td>
+                                    <td>${formatHarga}</td>
+                                    <td>${formatTotal}</td>
 
                                 </tr>
                             `;
@@ -606,15 +637,15 @@
                     }
                 })
             })
+            /* END request persedian barang */
 
-            /* print laporan kartu persediaan barang */
+            /* Button Print */
             $('#btnPrintPdf').click(function(e) {
                 let nama = $(this).data('nama');
                 let id = $(this).data('id');
                 window.location.href = `<?= base_url(); ?>Persediaan_barang/create_pdf/${id}/${nama}`;
             })
 
-            /* print laporan transaksi */
             $('#btnPrintTransaksi').click(function(e) {
                 let link = $(this).data('href');
                 let start = $(`input[id='start']`).val();
@@ -638,23 +669,29 @@
                 window.location.href = link;
 
             })
+            /* END button print */
 
         });
         TableManageButtons.init();
 
+        /* function format rupiah */
         function formatRupiah(nominal) {
             let reverse = nominal.toString().split('').reverse().join('');
             let ribuan = reverse.match(/\d{1,3}/g);
             ribuan = ribuan.join('.').split('').reverse().join('');
             return ribuan;
         }
+        /* END function format rupiah */
 
+        /* function convert from rupiah */
         function convertFromRupiah(nominal) {
             let nominalString = nominal.replace(/\./g, '');
             let nominalInt = Number(nominalString);
             return nominalInt;
         }
+        /* END convert from rupiah */
 
+        /* function hitung sub total harga keluar */
         function hitungSubTotal(id) {
             // console.log(id)
             let jumlahKeluar = $(`#jumlah-keluar[data-id='${id}']`).val();
@@ -663,55 +700,52 @@
             let jumlahInt = parseInt(jumlahKeluar);
             let hargaInt = parseInt(hargaKeluar);
             let result = jumlahInt * hargaInt;
-            // console.log(result)
+
             let subHarga = $(`#total_harga_keluar[data-id='${id}']`).attr('value', formatRupiah(result))
-            // let current = parseInt($('#total').val());
-            // let totalHarga = current + parseInt(subHarga.val());
-            // console.log(totalHarga)
-            // $('#total').attr('value', totalHarga);
             totalHarga();
         }
+        /* END proses hitung */
 
+        /* function sum total harga keluar */
         function totalHarga() {
             let result = 0;
             $(`input[id='total_harga_keluar']`).each(function(i) {
                 let nominal = $(this).val();
                 let total = convertFromRupiah(nominal);
-                // console.log(convertFromRupiah(nominal));
+
                 result += total
-                // console.log(result)
             })
             $('#total').attr('value', formatRupiah(result));
         }
+        /* END proses sum */
 
+        /* Proses hitung from nominal bayar */
         $('#bayar').keyup(function(e) {
             let result = 0;
             let totalBayar = $('#total').val();
             let bayar = $(this).val();
-
-            // console.log(bayar)
 
             let totalFilter = convertFromRupiah(totalBayar);
             let bayarFilter = convertFromRupiah(bayar);
 
             let numTotal = Number(totalFilter);
             let numBayar = Number(bayarFilter);
-            // console.log(bayarFilter);
-            // console.log(totalFilter);
 
             result = numBayar - numTotal;
-            // console.log(result)
+
             if (numTotal > numBayar) {
                 $('#kembalian').attr('value', '0')
             } else {
                 $('#kembalian').attr('value', formatRupiah(result))
             }
         })
+        /* END proses */
 
+        /* function request detail transaksi by id transaksi */
         function detailTransaksi(id) {
             $(`.btnViewBarangKeluar`).attr('disabled', false);
             $('.data-viewBarangKeluar').empty();
-            // let id = $('.btnViewBarangKeluar').data('id');
+
             $.ajax({
                 url: `<?= base_url(); ?>Barang_keluar/showByIdTransaction/${id}`,
                 type: 'GET',
@@ -736,7 +770,9 @@
                 }
             });
         }
+        /* END function request data */
 
+        /* function request data barang keluar by id keluar */
         function showByIdKeluar(id) {
             $.ajax({
                 url: `<?= base_url(); ?>Barang_keluar/showById/${id}`,
@@ -751,12 +787,10 @@
                 }
             })
         }
+        /* END function request data */
 
+        /* function add barang to keranjang */
         function addCard(id_masuk, id_produk) {
-
-            // let id = $(this).data('id');
-            // let id_masuk = $(this).data('idmasuk');
-            // console.log(id)
             let namaBarang = $(`#namaProduk[data-id='${id_produk}']`).data('data');
             console.log(namaBarang)
             let hargaBarang = $(`#hargaProduk[data-id='${id_produk}']`).data('data');
@@ -793,6 +827,7 @@
             $('.list-card').html(row);
             $(`.btnAddCard[data-id='${id_produk}']`).attr('disabled', true)
         }
+        /* END proses add keranjang barang */
     </script>
 
     </body>
