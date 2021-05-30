@@ -10,7 +10,7 @@ class Barang_keluar extends CI_Controller
     $this->load->model('M_return_barang');
   }
 
-  /* show data barang keluar by Id transaksi */
+  /* Proses tampil data barang keluar by Id transaksi */
   public function showByIdTransaction($id = null)
   {
     $allIdKeluar = [];
@@ -22,33 +22,14 @@ class Barang_keluar extends CI_Controller
     echo json_encode($data['data']);
     return;
   }
+  /* END proses tampil data */
 
-  /* show data barang keluar by Id keluar */
+  /* proses request data barang keluar by Id keluar */
   public function showById($id = null)
   {
     $data['data'] = $this->M_barang_keluar->tampil_byId(['id_keluar' => $id]);
     echo json_encode($data['data']);
     return;
   }
-
-  /* show data best seller per day */
-  public function getBestSellDay()
-  {
-    $data = ['date' => date('Y-m-d')];
-    $result['data'] = $this->M_barang_keluar->tampil_bestSell($data);
-    // echo var_dump($result['data']);
-    echo json_encode($result['data']);
-    return;
-  }
-
-  /* show data high total per day */
-  public function getHighTotal()
-  {
-    $data = ['date' => date('Y-m-d')];
-    $result['data'] = $this->M_barang_keluar->tampil_hargaTotal($data);
-    // echo var_dump($result['data']);
-    // die;
-    echo json_encode($result['data']);
-    return;
-  }
+  /* END request */
 }

@@ -2,7 +2,7 @@
 
 class M_transaksi extends CI_Model
 {
-	/* SELECT ALL DATA TRANSAKSI */
+	/* SELECT TRANSAKSI */
 	function tampil_data($data)
 	{
 		$this->db->select('*');
@@ -13,16 +13,18 @@ class M_transaksi extends CI_Model
 		if ($data['id_transaksi']) return $this->db->get()->row_array();
 		else return $this->db->get()->result_array();
 	}
+	/* END SELECT */
 
-	/* SELECT COUNT DATA TRANSAKSI */
+	/* SELECT COUNT(ID_TRANSAKSI) FROM TRANSAKSI */
 	public function tampil_getCountAll()
 	{
 		$this->db->select('COUNT(id_transaksi) as total');
 		$this->db->from('transaksi');
 		return $this->db->get()->row_array();
 	}
+	/* END SELECT */
 
-	/* SELECT SUM TOTAL TRANSAKSI PER DAY */
+	/* SELECT SUM(TOTAL) FROM TRANSAKSI PER DAY */
 	public function tampil_totalDay($data)
 	{
 		$this->db->select('SUM(total) as total');
@@ -30,8 +32,9 @@ class M_transaksi extends CI_Model
 		$this->db->where('DATE(tanggal)', $data['date']);
 		return $this->db->get()->row_array();
 	}
+	/* END SELECT */
 
-	/* SELECT COUNT DATA TRANSAKSI PER DAY */
+	/* SELECT COUNT(ID_TRANSAKASI) TRANSAKSI PER DAY */
 	public function tampil_CountDay()
 	{
 		$this->db->select('COUNT(id_transaksi) as total');
@@ -47,25 +50,5 @@ class M_transaksi extends CI_Model
 		$this->db->insert('transaksi', $data);
 		return $this->db->affected_rows();
 	}
-
-	/* DELETE DATA TRANSAKSI */
-	function hapus_data($id_transaksi)
-	{
-		$this->db->where(array('id_transaksi' => $id_transaksi));
-		$this->db->delete(array('detail', 'transaksi'));
-		redirect('../kasir/TransaksiControllerkasir');
-	}
-
-	/* UPDATE DATA TRANSAKSI */
-	function ubah_harga($id_transaksi)
-	{
-		$data = array(
-			'bayar' => $this->input->post('bayar'),
-			'total' => $this->input->post('total'),
-			'kembali' => $this->input->post('kembali'),
-		);
-		$this->db->where(array('id_transaksi' => $id_transaksi));
-		$this->db->update('transaksi', $data);
-		redirect('../kasir/TransaksiControllerkasir');
-	}
+	/* END INSERT */
 }

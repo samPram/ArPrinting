@@ -10,7 +10,6 @@
       <div class="row">
         <div class="col-sm-12">
           <?php echo form_open_multipart('Barang/update/' . $data['id_produk'], ['method' => 'post']); ?>
-          <!-- <form action="<?= base_url(); ?>Barang/update/<?= $data['id_produk']; ?>" method="POST"> -->
           <div class="form-group">
             <label for="id_produk">Id Barang</label>
             <input type="text" class="form-control" id="id_produk" name="id_produk" value="<?= $data['id_produk']; ?>" disabled>

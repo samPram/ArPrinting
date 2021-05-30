@@ -13,10 +13,9 @@ class Transaksi extends CI_Controller
 		$this->load->model('M_view_transaksi');
 		$this->load->model('M_histori_masuk');
 		$this->load->library('form_validation');
-		$this->load->library('pagination');
 	}
 
-	/* tampil transaksi kasir user */
+	/* tampil transaksi halaman kasir */
 	public function index($id = null)
 	{
 		if ($this->session->userdata('level') == 'Kasir') {
@@ -34,16 +33,7 @@ class Transaksi extends CI_Controller
 	}
 	/* END tampil kasir */
 
-	/* Proses tampil list barang by search */
-	public function getSearchStok($nama = null)
-	{
-		$data['data'] = $this->M_barang_masuk->tampil_searchStok(['nama_produk' => $nama]);
-		echo json_encode($data['data']);
-		return;
-	}
-	/* END tampil list search */
-
-	/* Proses tampil list card */
+	/* Proses request data tampil list card */
 	public function list_card($id = null)
 	{
 		$data['list']  = $this->M_barang->tampil_data(['id_produk' => $id]);
@@ -52,7 +42,7 @@ class Transaksi extends CI_Controller
 	}
 	/* END tampil list card */
 
-	/* Proses tampil data transaksi admin */
+	/* Tampil data transaksi halaman admin */
 	public function getAllTransaction()
 	{
 		if ($this->session->userdata('level') == 'Admin') {
@@ -68,7 +58,7 @@ class Transaksi extends CI_Controller
 	}
 	/* END tampil data transaksi */
 
-	/* Proses tampil data detail transaksi */
+	/* Proses request tampil data detail transaksi */
 	public function detailTransaction($id = null)
 	{
 		$data = [
@@ -81,39 +71,10 @@ class Transaksi extends CI_Controller
 	}
 	/* END proses tampil data detail */
 
-	/* Proses tampil data jumlah transakasi */
-	public function getCountAll()
-	{
-		$data['data'] = $this->M_transaksi->tampil_getCountAll();
-		echo json_encode($data['data']);
-		return;
-	}
-	/* END tampil data jumlah */
-
-	/* show total pendapatan per hari ini */
-	public function getTotalDay()
-	{
-		$data = ['date' => date('Y-m-d')];
-		$result['data'] = $this->M_transaksi->tampil_totalDay($data);
-		echo json_encode($result['data']);
-		return;
-	}
-
-	/* show tampil data jumlah transaksi hari ini */
-	public function getCountDay()
-	{
-		$data = $this->M_transaksi->tampil_CountDay();
-		echo json_encode($data);
-		return;
-	}
-	/* END tampil data jumlah */
-
-	/* add barang transaksi */
+	/* Proses insert transaksi */
 	public function add()
 	{
 		if ($this->session->userdata('level') == 'Kasir') {
-			// echo json_encode($this->input->post());
-			// return;
 
 			/* DATA TRANSAKSI */
 			$id_transaksi = date('YmdHis');
@@ -140,10 +101,6 @@ class Transaksi extends CI_Controller
 				'kembali' => $kembalian
 			];
 
-			// echo json_encode($data);
-			// return;
-			// die();
-
 			/* DATA BARANG KELUAR */
 			$id_masuk = $this->input->post('id_masuk', true);
 			$id_produk = $this->input->post('id_produk', true);
@@ -163,9 +120,6 @@ class Transaksi extends CI_Controller
 
 			$stok = $this->M_barang_masuk->tampil_stokCard($id_masuk);
 
-			// echo json_encode($stok);
-			// return;
-			// die();
 
 			$result = [];
 			for ($i = 0; $i < count($id_produk); $i++) {
@@ -185,7 +139,7 @@ class Transaksi extends CI_Controller
 					Failed insert data!
 			</div>');
 					echo base_url() . '/Transaksi';
-					// break;
+
 					die;
 				}
 
@@ -195,7 +149,7 @@ class Transaksi extends CI_Controller
 					Failed insert data!
 			</div>');
 					echo base_url() . '/Transaksi';
-					// break;
+
 					die;
 				}
 				$result[$i]['jumlah_keluar'] = $jumlah_keluar[$i];
@@ -211,9 +165,6 @@ class Transaksi extends CI_Controller
 				$dataMasuk[$i]['jumlah_masuk'] = $stok[$i]['jumlah_masuk'] -= $result[$i]['jumlah_keluar'];
 			}
 
-			// echo json_encode($result);
-			// return;
-			// die();
 			if ($this->M_transaksi->tambah_data($data) > 0 && $this->M_barang_keluar->tambah_data($result) > 0 && $this->M_barang_masuk->ubah_stok_masuk($dataMasuk) > 0) {
 
 				$id_keluar = $this->M_barang_keluar->tampil_maxId($id_transaksi);
@@ -227,10 +178,6 @@ class Transaksi extends CI_Controller
 						'id_keluar' => $id_keluar[$i]['id_keluar']
 					];
 				}
-
-				// echo json_encode($id_keluar);
-				// return;
-				// die();
 
 				$this->M_histori_masuk->tambah_many($dataHistori);
 
@@ -249,24 +196,5 @@ class Transaksi extends CI_Controller
 			$this->load->view('404_page');
 		}
 	}
-
-	/* delete data transaksi */
-	public function delete()
-	{
-		$id_transaksi = $this->input->post('id_transaksi1');
-
-		$this->m_transaksi->hapus_data($id_transaksi);
-	}
-
-	/* update harga transaksi */
-	public function updateHarga()
-	{
-		$id_transaksi = $this->input->post('id_transaksi');
-
-		if (empty($id_transaksi)) {
-			$this->index();
-		} else {
-			$this->m_transaksi->ubah_harga($id_transaksi);
-		}
-	}
+	/* END proses insert transaksi */
 }

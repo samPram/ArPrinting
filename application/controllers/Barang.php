@@ -11,7 +11,7 @@ class Barang extends CI_Controller
                 $this->load->library('form_validation');
         }
 
-        /* tampil barang for admin */
+        /* Tampil data barang halaman admin */
         public function index()
         {
                 if ($this->session->userdata('level') == 'Admin') {
@@ -33,7 +33,7 @@ class Barang extends CI_Controller
         }
         /* END tampil barang for admin */
 
-        /* tampil barang for kasir */
+        /* Tampil barang halaman kasir */
         public function view()
         {
                 if ($this->session->userdata('level') == 'Kasir') {
@@ -50,7 +50,7 @@ class Barang extends CI_Controller
         }
         /* END tampil barang for kasir */
 
-        /* Proses tampil data barang by Id produk */
+        /* Proses request tampil data barang by Id produk */
         public function showById($id = null)
         {
                 $data = ['id_produk' => $id];
@@ -60,16 +60,7 @@ class Barang extends CI_Controller
         }
         /* END proses tampil data */
 
-        /* Proses tampil jumlah data barang */
-        public function getCountAll()
-        {
-                $data['data'] = $this->M_barang->tampil_getCountAll();
-                echo json_encode($data['data']);
-                return;
-        }
-        /* END proses tampil jumlah */
-
-        /* proses add data barang */
+        /* Proses insert data barang */
         public function add()
         {
                 $config['upload_path'] = './uploads';
@@ -83,7 +74,6 @@ class Barang extends CI_Controller
 
                         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
                         $this->form_validation->set_rules('satuan', 'Satuan', 'required|trim');
-                        // $this->form_validation->set_rules('image', 'Image', 'callback_file_check');
 
                         if ($this->form_validation->run() == false) {
                                 $this->load->view('template/header');
@@ -125,9 +115,9 @@ class Barang extends CI_Controller
                         $this->load->view('404_page');
                 }
         }
-        /* End proses add data */
+        /* End proses insert data */
 
-        /* proses delete data barang by Id Produk */
+        /* Proses delete data barang by Id Produk */
         public function delete($id = null)
         {
                 if ($this->M_barang->hapus_data($id) > 0) {
@@ -145,7 +135,7 @@ class Barang extends CI_Controller
         }
         /* END proses delete data produk */
 
-        /* proses update data produk by Id Produk */
+        /* Proses update data produk by Id Produk */
         public function update($id = null)
         {
                 $config['upload_path'] = './uploads';
@@ -175,8 +165,6 @@ class Barang extends CI_Controller
                         } else {
                                 $nama = htmlspecialchars($this->input->post('nama', true));
                                 $satuan = htmlspecialchars($this->input->post('satuan', true));
-                                // $harga = str_replace('.', '', $this->input->post('harga', true));
-                                // $quantity = htmlspecialchars($this->input->post('jumlah', true));
 
                                 $data = [
                                         'nama_produk' => $nama,

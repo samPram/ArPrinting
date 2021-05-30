@@ -11,6 +11,7 @@ class User extends CI_Controller
                 $this->load->library('form_validation');
         }
 
+        /* Tampil data user */
         public function index()
         {
                 if ($this->session->userdata('level') == 'Admin') {
@@ -24,14 +25,9 @@ class User extends CI_Controller
                         $this->load->view('404_page');
                 }
         }
+        /* END tampil data */
 
-        public function getCountAll()
-        {
-                $data['data'] = $this->M_user->tampil_getCountAll();
-                echo json_encode($data['data']);
-                return;
-        }
-
+        /* Proses insert data user */
         public function add()
         {
                 $id_user = $this->input->post('id_user');
@@ -42,7 +38,9 @@ class User extends CI_Controller
                 else
                         $this->m_user->ubah_data($id_user);
         }
+        /* END proses insert */
 
+        /* Proses update by Id */
         public function update($id = null)
         {
                 $data = ['id_user' => $id];
@@ -86,8 +84,9 @@ class User extends CI_Controller
                         redirect('user');
                 }
         }
+        /* END proses update */
 
-
+        /* Proses delete by Id */
         public function delete($id = null)
         {
                 if ($this->M_user->hapus_data($id) > 0) {
@@ -103,4 +102,5 @@ class User extends CI_Controller
                 }
                 redirect('user');
         }
+        /* END proses delete */
 }

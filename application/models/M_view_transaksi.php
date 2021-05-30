@@ -2,6 +2,7 @@
 
 class M_view_transaksi extends CI_Model
 {
+  /* SELECT VIEW TRANSAKSI */
   public function tampil_data()
   {
     $this->db->select('*');
@@ -9,7 +10,9 @@ class M_view_transaksi extends CI_Model
     $this->db->order_by('DATE(tanggal)', 'DESC');
     return $this->db->get()->result_array();
   }
+  /* END SELECT */
 
+  /* SELECT VIEW TRANSAKSI WHERE ID_TRANSAKSI */
   public function tampil_detail($data)
   {
     $this->db->select('*');
@@ -18,7 +21,9 @@ class M_view_transaksi extends CI_Model
     $this->db->order_by('nama_produk', 'ASC');
     return $this->db->get()->result_array();
   }
+  /* END SELECT */
 
+  /* SELECT VIEW_TRANSAKSI BY DATE RANGE */
   public function tampil_periode($data)
   {
     $this->db->select('*');
@@ -28,4 +33,5 @@ class M_view_transaksi extends CI_Model
     $this->db->order_by('tanggal', 'DESC');
     return $this->db->get()->result_array();
   }
+  /* END SELECT */
 }

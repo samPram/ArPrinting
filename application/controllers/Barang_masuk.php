@@ -12,7 +12,7 @@ class Barang_masuk extends CI_Controller
     $this->load->library('form_validation');
   }
 
-  /* show all data barang masuk by Id Produk */
+  /* Proses data barang_masuk by id produk */
   public function showById($id = null)
   {
     $data = ['id_produk' => $id, 'id_masuk' => null];
@@ -20,17 +20,9 @@ class Barang_masuk extends CI_Controller
     echo json_encode($result['data']);
     return;
   }
+  /* END proses */
 
-  /* show first data barang masuk */
-  public function showFirst($id = null)
-  {
-    $data = ['id_produk' => $id];
-    $result['data'] = $this->M_barang_masuk->tampil_firs($data);
-    echo json_encode($result['data']);
-    return;
-  }
-
-  /* add new data barang masuk */
+  /* Proses insert barang_masuk */
   public function add()
   {
     if ($this->session->userdata('level') == 'Admin') {
@@ -38,7 +30,7 @@ class Barang_masuk extends CI_Controller
       $id_prdouk = htmlspecialchars($this->input->post('id_produk', true));
       $jumlah = htmlspecialchars($this->input->post('jumlah_masuk', true));
       $harga = str_replace('.', '', $this->input->post('harga_masuk', true));
-      $total = htmlspecialchars($this->input->post('total_harga', true));
+      $total = str_replace('.', '', $this->input->post('total_harga', true));
 
       if ($harga == 0 || $jumlah == 0 || $total == 0) {
         $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
@@ -57,9 +49,6 @@ class Barang_masuk extends CI_Controller
         'total_harga_masuk' => $total
       ];
 
-      // echo var_dump($id_masuk);
-      // die;
-
       if ($this->M_barang_masuk->tambah_data($data) > 0 && $this->M_barang->ubah_stok($id_prdouk) > 0) {
         $id_masuk = $this->M_barang_masuk->tampil_maxId();
 
@@ -68,8 +57,7 @@ class Barang_masuk extends CI_Controller
           'id_masuk' => $id_masuk['id_masuk'],
           'current_masuk' => $jumlah
         ];
-        // echo var_dump($data2);
-        // die;
+
         $this->M_histori_masuk->tambah_data($data2);
 
         $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
@@ -87,14 +75,14 @@ class Barang_masuk extends CI_Controller
       $this->load->view('404_page');
     }
   }
+  /* END proses insert */
 
-  /* show page update data barang masuk */
+  /* Tampil form update */
   public function tampil_update($id = null)
   {
     $data['data'] = $this->M_barang_masuk->tampil_detail(['id_masuk' => $id]);
     if ($this->session->userdata('level') == 'Admin') {
-      // echo var_dump($data['data']);
-      // die;
+
       $this->load->view('template/header');
       $this->load->view('template/topbar');
       $this->load->view('template/sidebar');
@@ -104,8 +92,9 @@ class Barang_masuk extends CI_Controller
       $this->load->view('404_page');
     }
   }
+  /* END tampil update */
 
-  /* update data barang */
+  /* Proses update barang_masuk by id */
   public function update()
   {
     $id = htmlspecialchars($this->input->post('id_masuk', true));
@@ -129,11 +118,6 @@ class Barang_masuk extends CI_Controller
       'harga_masuk' => $harga,
       'total_harga_masuk' => $total
     ];
-
-    // echo var_dump($data);
-    // echo $id . '<br>';
-    // echo $id_produk;
-    // die;
 
     if ($this->M_barang_masuk->ubah_data($data, $id) > 0 && $this->M_barang->ubah_stok($id_produk) > 0) {
 
@@ -170,8 +154,9 @@ class Barang_masuk extends CI_Controller
     }
     redirect('barang');
   }
+  /* END proses update */
 
-  /* delete data barang masuk by Id Masuk */
+  /* Proses delete barang_masuk by id */
   public function delete($id_masuk = null, $id_prdouk = null)
   {
     if ($this->session->userdata('level') == 'Admin') {
@@ -191,4 +176,5 @@ class Barang_masuk extends CI_Controller
       $this->load->view('404_page');
     }
   }
+  /* END proses delete */
 }

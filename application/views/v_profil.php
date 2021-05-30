@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
               <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" name="username" value="<?= $data['username']; ?>">
+              <input type="text" class="form-control" id="username" name="username" value="<?= $data['username']; ?>" readonly>
               <?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
             </div>
             <div class="form-group">

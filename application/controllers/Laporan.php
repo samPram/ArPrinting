@@ -12,6 +12,7 @@ class Laporan extends CI_Controller
     $this->load->library('Pdf');
   }
 
+  /* Tampil laporan transaksi penjualan */
   public function index()
   {
     if ($this->session->userdata('level') == 'Admin') {
@@ -26,7 +27,9 @@ class Laporan extends CI_Controller
       $this->load->view('404_page');
     }
   }
+  /* END tampil */
 
+  /* Proses request date range laporan */
   public function getPeriode()
   {
     $start = date("Y-m-d", strtotime($this->input->post('start', true)));
@@ -37,7 +40,9 @@ class Laporan extends CI_Controller
     echo json_encode($result['data']);
     return;
   }
+  /* END proses date range */
 
+  /* Proses print laporan transaksi */
   public function print_transaksi($start = null, $end = null)
   {
     if ($this->session->userdata('level') == 'Admin') {
@@ -54,67 +59,32 @@ class Laporan extends CI_Controller
         $result = $this->M_view_transaksi->tampil_data();
       }
 
-      // echo var_dump($result);
-      // die;
-
       $pdf = new TCPDF('L', 'mm', PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
       // set document information
-      // $pdf->SetCreator(PDF_CREATOR);
-      // $pdf->SetAuthor('Nicola Asuni');
       $pdf->SetTitle('Laporan Transaksi');
-      // $pdf->SetSubject('TCPDF Tutorial');
-      // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
       // set default header data
-      // $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
-      // $pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
 
       // set header and footer fonts
       $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
       $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-      // set default monospaced font
-      // $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
       // set margins
       $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
       $pdf->SetHeaderMargin(0);
       $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-      // $pdf->SetHeaderMargin(0);
-      // $pdf->SetTopMargin(0);
 
       // set auto page breaks
       $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-      // set image scale factor
-      // $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-      // set some language-dependent strings (optional)
-      // if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-      //   require_once(dirname(__FILE__) . '/lang/eng.php');
-      //   $pdf->setLanguageArray($l);
-      // }
-
       // ---------------------------------------------------------
-
-      // set default font subsetting mode
-      // $pdf->setFontSubsetting(true);
-
-      // Set font
-      // dejavusans is a UTF-8 Unicode font, if you only need to
-      // print standard ASCII chars, you can use core fonts like
-      // helvetica or times to reduce file size.
-      // $pdf->SetFont('dejavusans', '', 14, '', true);
 
       $pdf->SetDisplayMode('real', 'default');
 
       // Add a page
       // This method has several options, check the source code documentation for more information.
       $pdf->AddPage();
-
-      // set text shadow effect
-      // $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
       $total = 0;
       $i = 1;
@@ -185,12 +155,13 @@ class Laporan extends CI_Controller
       // END OF FILE
       //============================================================+
 
-      // $this->load->view('admin/persedian_pdf');
     } else {
       $this->load->view('404_page');
     }
   }
+  /* END print laporan transaksi */
 
+  /* Proses print detail transaksi */
   public function print_barangKeluar($id_transaksi = null)
   {
     $allIdKeluar = [];
@@ -201,58 +172,27 @@ class Laporan extends CI_Controller
 
     $result = $this->M_barang_keluar->tampil_byIdTransaksi(['id_transaksi' => $id_transaksi, 'id_keluar' => $allIdKeluar]);
 
-    // echo var_dump($result);
-    // die;
 
     $pdf = new TCPDF('L', 'mm', PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
     // set document information
-    // $pdf->SetCreator(PDF_CREATOR);
-    // $pdf->SetAuthor('Nicola Asuni');
     $pdf->SetTitle('Laporan Detail Transaksi');
-    // $pdf->SetSubject('TCPDF Tutorial');
-    // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
     // set default header data
-    // $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
-    // $pdf->setFooterData(array(0, 64, 0), array(0, 64, 128));
 
     // set header and footer fonts
     $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
     $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-    // set default monospaced font
-    // $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
     // set margins
     $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
     $pdf->SetHeaderMargin(0);
     $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-    // $pdf->SetHeaderMargin(0);
-    // $pdf->SetTopMargin(0);
 
     // set auto page breaks
     $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-    // set image scale factor
-    // $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-    // set some language-dependent strings (optional)
-    // if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-    //   require_once(dirname(__FILE__) . '/lang/eng.php');
-    //   $pdf->setLanguageArray($l);
-    // }
-
     // ---------------------------------------------------------
-
-    // set default font subsetting mode
-    // $pdf->setFontSubsetting(true);
-
-    // Set font
-    // dejavusans is a UTF-8 Unicode font, if you only need to
-    // print standard ASCII chars, you can use core fonts like
-    // helvetica or times to reduce file size.
-    // $pdf->SetFont('dejavusans', '', 14, '', true);
 
     $pdf->SetDisplayMode('real', 'default');
 
@@ -260,15 +200,12 @@ class Laporan extends CI_Controller
     // This method has several options, check the source code documentation for more information.
     $pdf->AddPage();
 
-    // set text shadow effect
-    // $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
-
     $total = 0;
     $i = 1;
     // Set some content to print
     $html = '
               <h1 align="center">Laporan Detail Transaksi Penjualan<br>UD Nafi Kota Madiun</h1>
-        <table width="30%">
+        <table>
           <tr>
             <td>Id Transaksi</td>
             <td> : ' . $id_transaksi . '</td>
@@ -321,4 +258,5 @@ class Laporan extends CI_Controller
     // END OF FILE
     //============================================================+
   }
+  /* END detail transaksi */
 }

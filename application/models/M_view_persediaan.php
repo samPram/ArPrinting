@@ -2,6 +2,7 @@
 
 class M_view_persediaan extends CI_Model
 {
+  /* SELECT VIEW_PERSEDIAN WHERE ID_PRODK */
   public function tampil_data($data)
   {
     $this->db->select('*');
@@ -11,4 +12,5 @@ class M_view_persediaan extends CI_Model
     // $this->db->order_by('tgl_keluar', 'ASC');
     return $this->db->get()->result_array();
   }
+  /* END SELECT */
 }

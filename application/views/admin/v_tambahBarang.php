@@ -11,7 +11,6 @@
         <div class="col-sm-12">
 
           <?php echo form_open_multipart('Barang/add', ['method' => 'post']); ?>
-          <!-- <form action="<?= base_url(); ?>Barang/add" method="POST"> -->
           <div class="form-group">
             <label for="namaProduk">Nama</label>
             <input type="text" class="form-control" id="nama" name="nama" value="<?= set_value('nama'); ?>">

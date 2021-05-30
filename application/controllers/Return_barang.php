@@ -11,6 +11,7 @@ class Return_barang extends CI_Controller
     $this->load->model('M_barang_keluar');
   }
 
+  /* Tampil data return */
   public function index()
   {
     if ($this->session->userdata('level') == 'Kasir') {
@@ -25,7 +26,9 @@ class Return_barang extends CI_Controller
       $this->load->view('404_page');
     }
   }
+  /* END tampil */
 
+  /* Proses tampil data retur */
   public function view()
   {
     if ($this->session->userdata('level') == 'Kasir') {
@@ -40,21 +43,18 @@ class Return_barang extends CI_Controller
       $this->load->view('404_page');
     }
   }
+  /* END proses */
 
+  /* Proses request data retur by id_retur */
   public function showById($id = null)
   {
     $data['data'] = $this->M_return_barang->tampil_byId(['id_return' => $id]);
     echo json_encode($data['data']);
     return;
   }
+  /* END proses */
 
-  public function getCountAll()
-  {
-    $data['data'] = $this->M_return_barang->tampil_getCountAll();
-    echo json_encode($data['data']);
-    return;
-  }
-
+  /* Proses insert data retur */
   public function add()
   {
     $id_keluar = $this->input->post('id_keluar', true);
@@ -76,9 +76,6 @@ class Return_barang extends CI_Controller
       'jumlah_keluar' => $jumlah_keluar - $jumlah
     ];
 
-    // echo $this->M_barang_keluar->ubah_data($data2, $id_keluar);
-    // die();
-
     if ($this->M_return_barang->add($data) > 0 && $this->M_barang_keluar->ubah_data($data2, $id_keluar) > 0) {
       $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -92,10 +89,10 @@ class Return_barang extends CI_Controller
     }
 
     redirect('return_barang');
-    // echo var_dump($data);
-    // die;
   }
+  /* END proses insert */
 
+  /* Proses update data retur by Id */
   public function update()
   {
     $id_return = $this->input->post('id_return', true);
@@ -122,9 +119,6 @@ class Return_barang extends CI_Controller
     /* DATA BARANG KELUAR */
     $data2 = ['jumlah_keluar' => $result];
 
-    // echo var_dump($data2);
-    // die;
-
     if ($this->M_return_barang->ubah_data($data, $id_return) > 0 &&  $this->M_barang_keluar->ubah_data($data2, $id_keluar) > 0) {
       $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -139,7 +133,9 @@ class Return_barang extends CI_Controller
 
     redirect('return_barang');
   }
+  /* END proses update */
 
+  /* Proses delete by Id */
   public function delete($id_keluar = null, $jumlah_barang = null, $id_return = null)
   {
     $data = $this->M_barang_keluar->tampil_byId(['id_keluar' => $id_keluar]);
@@ -158,4 +154,5 @@ class Return_barang extends CI_Controller
     }
     redirect('Return_barang');
   }
+  /* END proses */
 }

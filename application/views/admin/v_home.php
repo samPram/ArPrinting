@@ -10,28 +10,60 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="widget-panel widget-style-2 bg-white">
                     <i class="md md-attach-money text-primary"></i>
-                    <h2 class="m-0 text-dark counter font-600" id="totalTransaksi"></h2>
+                    <h2 class="m-0 text-dark counter font-600" id="totalTransaksi">
+                        <?php
+                        if ($transaksi) {
+                            echo $transaksi['total'];
+                        } else {
+                            echo '0';
+                        }
+                        ?>
+                    </h2>
                     <div class="text-muted m-t-5">Total Transaksi</div>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="widget-panel widget-style-2 bg-white">
                     <i class="md md-add-shopping-cart text-pink"></i>
-                    <h2 class="m-0 text-dark counter font-600" id='totalBarang'></h2>
+                    <h2 class="m-0 text-dark counter font-600" id='totalBarang'>
+                        <?php
+                        if ($barang) {
+                            echo $barang['total'];
+                        } else {
+                            echo '0';
+                        }
+                        ?>
+                    </h2>
                     <div class="text-muted m-t-5">Total Barang</div>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="widget-panel widget-style-2 bg-white">
                     <i class="md md-swap-horiz text-info"></i>
-                    <h2 class="m-0 text-dark counter font-600" id="totalRetur"></h2>
+                    <h2 class="m-0 text-dark counter font-600" id="totalRetur">
+                        <?php
+                        if ($return) {
+                            echo $return['total'];
+                        } else {
+                            echo '0';
+                        }
+                        ?>
+                    </h2>
                     <div class="text-muted m-t-5">Total Retur</div>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="widget-panel widget-style-2 bg-white">
                     <i class="md md-account-child text-custom"></i>
-                    <h2 class="m-0 text-dark counter font-600" id="totalUser"></h2>
+                    <h2 class="m-0 text-dark counter font-600" id="totalUser">
+                        <?php
+                        if ($user) {
+                            echo $user['total'];
+                        } else {
+                            echo '0';
+                        }
+                        ?>
+                    </h2>
                     <div class="text-muted m-t-5">Total Users</div>
                 </div>
             </div>

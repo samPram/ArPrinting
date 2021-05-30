@@ -19,7 +19,17 @@
                             </div>
 
                             <div class="table-detail">
-                                <h4 class="m-t-0 m-b-5"><b id="jumlahTransaksi"></b></h4>
+                                <h4 class="m-t-0 m-b-5">
+                                    <b id="jumlahTransaksi">
+                                        <?php
+                                        if ($transaksi) {
+                                            echo $transaksi['total'];
+                                        } else {
+                                            echo '0';
+                                        }
+                                        ?>
+                                    </b>
+                                </h4>
                                 <p class="text-muted m-b-0 m-t-0">Jumlah transakasi hari ini</p>
                             </div>
 
@@ -40,7 +50,17 @@
                             </div>
 
                             <div class="table-detail">
-                                <h4 class="m-t-0 m-b-5"><b id="totalPendapatan">Rp. </b></h4>
+                                <h4 class="m-t-0 m-b-5">
+                                    <b id="totalPendapatan">Rp.
+                                        <?php
+                                        if ($total) {
+                                            echo number_format($total['total'], 0, '', '.');
+                                        } else {
+                                            echo '0';
+                                        }
+                                        ?>
+                                    </b>
+                                </h4>
                                 <p class="text-muted m-b-0 m-t-0">Total Pendapatan Hari ini</p>
                             </div>
 
@@ -61,7 +81,17 @@
                             </div>
 
                             <div class="table-detail">
-                                <h4 class="m-t-0 m-b-5"><b id="penjualanTertinggi">Rp. </b></h4>
+                                <h4 class="m-t-0 m-b-5">
+                                    <b id="penjualanTertinggi">Rp.
+                                        <?php
+                                        if ($high_total) {
+                                            echo number_format($high_total['total_harga_keluar'], 0, '', '.');
+                                        } else {
+                                            echo '0';
+                                        }
+                                        ?>
+                                    </b>
+                                </h4>
                                 <p class="text-muted m-b-0 m-t-0">Total Penjualan Tertinggi Hari Ini</p>
                             </div>
 

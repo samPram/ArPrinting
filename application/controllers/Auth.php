@@ -12,7 +12,7 @@ class Auth extends CI_Controller
 		$this->load->library('form_validation');
 	}
 
-	/* tampil login */
+	/* Tampil login */
 	function index()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -58,7 +58,7 @@ class Auth extends CI_Controller
 	}
 	/* END proses login */
 
-	/* proses registrasi */
+	/* Proses registrasi */
 	public function registrasi()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -93,7 +93,7 @@ class Auth extends CI_Controller
 	}
 	/* END proses registrasi */
 
-	/* proses logout */
+	/* Proses logout */
 	function logout()
 	{
 		$this->session->sess_destroy();

@@ -10,17 +10,19 @@ class Profil extends CI_Controller
     $this->load->library('form_validation');
   }
 
+  /* Proses edit profil */
   public function view_profil($id = null)
   {
     $this->form_validation->set_rules('username', 'Username', 'required|trim');
     $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[6]');
     $this->form_validation->set_rules('re_password', 'Repeat password', 'required|trim|matches[password]');
+    $sideBar = ($this->session->userdata('level') == 'Kasir') ? 'sidebar_kasir' : 'sidebar';
     if ($this->form_validation->run() == FALSE) {
       $data['data'] = $this->M_user->tampil_data(['id_user' => $id]);
       $this->load->view('template/header');
       $this->load->view('template/topbar');
-      $this->load->view('template/sidebar');
-      $this->load->view('admin/v_profil', $data);
+      $this->load->view('template/' . $sideBar);
+      $this->load->view('v_profil', $data);
       $this->load->view('template/footer');
     } else {
       $id_user = htmlspecialchars($this->input->post('id_user', true));
@@ -42,4 +44,5 @@ class Profil extends CI_Controller
       redirect('profil/view_profil/' . $id_user);
     }
   }
+  /* END proses edit profil */
 }

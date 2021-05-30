@@ -127,7 +127,7 @@
                         </div>
                         <div class="form-group">
                             <label for="jumlah_masuk">Jumlah</label>
-                            <input type="text" class="vertical-spin from-control" id="jumlah-masuk" name="jumlah_masuk" required>
+                            <input type="number" class="form-control" id="jumlah-masuk" name="jumlah_masuk" required>
 
                         </div>
                         <div class="form-group">
