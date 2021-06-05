@@ -157,33 +157,47 @@ class Barang extends CI_Controller
                         $this->load->view('admin/v_updateBarang', $result);
                         $this->load->view('template/footer');
                 } else {
-                        if (!$this->upload->do_upload('image')) {
-                                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                               ' . $this->upload->display_errors() . '
-                            </div>');
-                        } else {
-                                $nama = htmlspecialchars($this->input->post('nama', true));
-                                $satuan = htmlspecialchars($this->input->post('satuan', true));
+                        $nama = htmlspecialchars($this->input->post('nama', true));
+                        $satuan = htmlspecialchars($this->input->post('satuan', true));
+                        $curr_image = $this->input->post('curr_image', true);
 
+                        /* prepare data */
+                        $data = [];
+
+                        if (isset($_FILES['image']['name']) && !empty($_FILES['image']['name'])) {
+
+                                if (!$this->upload->do_upload('image')) {
+                                        $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                       ' . $this->upload->display_errors() . '
+                                    </div>');
+                                } else {
+                                        $data = [
+                                                'nama_produk' => $nama,
+                                                'satuan' => $satuan,
+                                                'image' => $this->upload->data('file_name')
+                                        ];
+                                }
+                        } else {
                                 $data = [
                                         'nama_produk' => $nama,
                                         'satuan' => $satuan,
-                                        'image' => $this->upload->data('file_name')
+                                        'image' => $curr_image
                                 ];
-
-                                if ($this->M_barang->ubah_data($data, $id) > 0) {
-                                        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                Success update data.
-                            </div>');
-                                } else {
-                                        $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                        Failed update data!
-                                    </div>');
-                                }
                         }
+
+                        if ($this->M_barang->ubah_data($data, $id) > 0) {
+                                $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        Success update data.
+                                    </div>');
+                        } else {
+                                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                Failed update data!
+                                            </div>');
+                        }
+
                         redirect('barang');
                 }
         }

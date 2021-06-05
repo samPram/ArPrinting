@@ -37,6 +37,7 @@
                 <small><?= $data['image']; ?></small>
               </p>
             </div>
+            <input type="hidden" name="curr_image" value="<?= $data['image']; ?>">
             <input type="file" class="form-control" id="image" name="image">
           </div>
 
