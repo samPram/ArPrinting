@@ -102,7 +102,7 @@ class Barang_masuk extends CI_Controller
     $current_jumlah = $this->input->post('current_jumlah_masuk', true);
     $jumlah = htmlspecialchars($this->input->post('jumlah_masuk', true));
     $harga = str_replace('.', '', $this->input->post('harga_masuk', true));
-    $total = htmlspecialchars($this->input->post('total_harga', true));
+    $total = str_replace('.', '', $this->input->post('total_harga', true));
 
     if ($harga == 0 || $jumlah == 0 || $total == 0) {
       $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
@@ -119,7 +119,8 @@ class Barang_masuk extends CI_Controller
       'total_harga_masuk' => $total
     ];
 
-    if ($this->M_barang_masuk->ubah_data($data, $id) > 0 && $this->M_barang->ubah_stok($id_produk) > 0) {
+    if ($this->M_barang_masuk->ubah_data($data, $id) > 0) {
+      $this->M_barang->ubah_stok($id_produk);
 
       $histori = $this->M_histori_masuk->tampil_dataByIdMasuk($id);
       $jmlPerbuahan = 0;

@@ -264,6 +264,17 @@
             })
             /* END proses jumlah */
 
+            /* Proses jumlah total harga barang masuk */
+            $('#jumlah-masuk').keyup(function(e) {
+                let harga = $('#harga-masuk').val().replace(/\./g, '');
+                let jumlah = $('#jumlah-masuk').val();
+
+                let total = harga * jumlah;
+
+                $('#total-masuk').attr('value', formatRupiah(total));
+            })
+            /* END proses jumlah */
+
             /* Proses tambah keranjang */
             $('.btnAddCard').on('click', function(e) {
                 let id = $(this).data('id');
