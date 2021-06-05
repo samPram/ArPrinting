@@ -1,0 +1,14 @@
+.divImage .foto {
+	object-fit: cover;
+	/* Do not scale the image */
+	object-position: center;
+	/* Center the image within the element */
+	width: 120px;
+	height: 120px;
+	/* max-height: 200px; */
+	/* margin-bottom: 1rem; */
+}
+
+.card-list {
+	height: 400px;
+}

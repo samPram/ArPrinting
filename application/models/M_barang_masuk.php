@@ -36,7 +36,7 @@ class M_barang_masuk extends CI_Model
     $this->db->join('ms_produk b', 'b.id_produk = a.id_produk');
     $this->db->where_not_in('a.jumlah_masuk', 0);
     $this->db->group_by('a.id_produk');
-    $this->db->order_by('a.tgl_masuk', 'ASC');
+    $this->db->order_by('b.nama_produk', 'ASC');
     return $this->db->get()->result_array();
   }
   /* END SELECT */

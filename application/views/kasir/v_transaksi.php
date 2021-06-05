@@ -51,8 +51,10 @@
                         <div class="row" id="listBarang">
                             <?php foreach ($data as $val) : ?>
                                 <div class="col-sm-4 mobiles text-center">
-                                    <div class="product-list-box bg-lightdark thumb">
-                                        <img src="<?= base_url('uploads/' . $val['image']); ?>" class="thumb-img" alt="work-thumbnail">
+                                    <div class="product-list-box bg-lightdark thumb card-list">
+                                        <div class="divImage">
+                                            <img src="<?= base_url('uploads/' . $val['image']); ?>" class="thumb-img foto" alt="work-thumbnail">
+                                        </div>
 
 
                                         <div class="detail">

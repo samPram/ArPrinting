@@ -59,8 +59,8 @@ class Return_barang extends CI_Controller
   {
     $id_keluar = $this->input->post('id_keluar', true);
     $jumlah = $this->input->post('jumlah_return', true);
-    $harga = $this->input->post('harga_return', true);
-    $total = $this->input->post('total_return', true);
+    $harga = str_replace('.', '', $this->input->post('harga_return', true));
+    $total = str_replace('.', '', $this->input->post('total_return', true));
     $jumlah_keluar = $this->input->post('jumlah_keluar', true);
 
     /* DATA REUTRN */

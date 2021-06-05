@@ -51,4 +51,12 @@ class M_transaksi extends CI_Model
 		return $this->db->affected_rows();
 	}
 	/* END INSERT */
+
+	/* DELETE TRANSAKSI BY ID */
+	public function hapus_data($id)
+	{
+		$this->db->delete('transaksi', ['id_transaksi' => $id]);
+		return $this->db->affected_rows();
+	}
+	/* END DELETE */
 }

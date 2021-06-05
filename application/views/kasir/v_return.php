@@ -20,7 +20,7 @@
                     <th>No</th>
                     <th>Id Transaksi</th>
                     <th>Nama Barang</th>
-                    <th>Jumlah Return</th>
+                    <th>Jumlah Retur</th>
                     <th>Harga (Rp. )</th>
                     <th>Total (Rp. )</th>
                     <th>Aksi</th>
@@ -82,7 +82,7 @@
           <!-- header-->
           <div class="modal-header">
             <button class="close" data-dismiss="modal"><span>&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">DATA RETURN</h4>
+            <h4 class="modal-title" id="myModalLabel">DATA RETUR</h4>
           </div>
           <!--body-->
           <div class="modal-body">

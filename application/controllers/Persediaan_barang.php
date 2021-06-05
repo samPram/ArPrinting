@@ -70,7 +70,7 @@ class Persediaan_barang extends CI_Controller
       $totalHargaMasuk = 0;
       $totalHargaKeluar = 0;
       $totalHarga = 0;
-      $i = 0;
+      $i = 1;
       // Set some content to print
       $html = '
               <h1 align="center">Laporan Kartu Persedian Barang<br>UD Nafi Kota Madiun</h1>

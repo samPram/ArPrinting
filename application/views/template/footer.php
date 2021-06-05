@@ -296,7 +296,7 @@
                                          <td>${rupiahHarga}<input type='hidden' name='harga_keluar[]' value='${hargaBarang}'></td>
                                          <td>
                                              <div class="form-group">
-                                             <input type="number" min="0" class="form-control" id="jumlah-keluar" data-id="${id}" name="jumlah_keluar[]" onkeyup='hitungSubTotal(${id})' required>
+                                             <input type="number" min="1" class="form-control" id="jumlah-keluar" data-id="${id}" name="jumlah_keluar[]" onkeyup='hitungSubTotal(${id})' required>
                                              </div>
                                              <input type='hidden' name='qty_produk[]' value='${jumlah_masuk}'>
                                          </td>
@@ -414,6 +414,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
+                        console.log(data)
                         let row = ``;
                         let i = 1
                         data.forEach(element => {
@@ -443,10 +444,10 @@
 
             /* Proses total return */
             $('#jumlah-return').keyup(function(e) {
-                let hargaReturn = $('#harga-return').val();
+                let hargaReturn = $('#harga-return').val().replace(/\./g, '');
                 let jumlahReturn = $('#jumlah-return').val();
                 let result = hargaReturn * jumlahReturn;
-                $('#total-return').attr('value', result);
+                $('#total-return').attr('value', formatRupiah(result));
             })
             /* END proses */
 
@@ -490,7 +491,7 @@
                     success: function(data) {
 
                         let row = ``;
-                        let i = 0;
+                        let i = 1;
                         data.forEach(element => {
                             let jumlah_masuk = element.id_keluar == null ? element.current_masuk : 0;
                             let tanggal = element.id_keluar ? element.tgl_keluar : element.tgl_masuk;
@@ -669,7 +670,7 @@
                     $('#id-keluar-return').attr('value', data.id_keluar);
                     $('#id-transaksi-return').attr('value', data.id_transaksi);
                     $('#nama-return').attr('value', data.nama_produk);
-                    $('#harga-return').attr('value', data.harga_keluar);
+                    $('#harga-return').attr('value', formatRupiah(data.harga_keluar));
                     $('#jumlah-keluar-return').attr('value', data.jumlah_keluar);
                 }
             })

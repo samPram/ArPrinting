@@ -196,5 +196,21 @@ class Transaksi extends CI_Controller
 			$this->load->view('404_page');
 		}
 	}
-	/* END proses insert transaksi */
+	/* END proses delete transaksi */
+	public function delete($id = null)
+	{
+		if ($this->M_transaksi->hapus_data($id) > 0) {
+			$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			Success deleting data.
+	</div>');
+		} else {
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			Failed delete data!
+	</div>');
+		}
+		redirect('Return_barang/view');
+	}
+	/* END proses delete */
 }

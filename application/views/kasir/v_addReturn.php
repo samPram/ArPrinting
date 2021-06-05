@@ -45,6 +45,9 @@
                           ?></td>
                       <td>
 
+                        <a data-href="<?= base_url('Transaksi/delete/' . $val['id_transaksi']) ?>" class='on-default default-row btn btn-danger' data-toggle='modal' data-target='#delete-modal'>
+                          <i class='ti-trash'></i></a>
+
                         <button data-id="<?= $val['id_transaksi']; ?>" class='on-default default-row btn btn-info btnDetailTransaksiReturn'>
                           <i class='ti-eye'></i></button>
                       </td>
@@ -83,6 +86,24 @@
       </div>
     </div>
 
+    <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog" style="width:55%;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="custom-width-modalLabel">Konfirmasi</h4>
+          </div>
+          <div class="modal-body">
+            <p>Apakah anda yakin ingin menghapus data ini ?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Tidak</button>
+            <a class="btn btn-success waves-effect waves-light btn-ok">Ya</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="modal-return-add">
@@ -91,7 +112,7 @@
           <!-- header-->
           <div class="modal-header">
             <button class="close" data-dismiss="modal"><span>&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">DATA RETURN</h4>
+            <h4 class="modal-title" id="myModalLabel">DATA RETUR</h4>
           </div>
           <!--body-->
           <div class="modal-body">
@@ -114,7 +135,7 @@
 
               </div>
               <div class="form-group">
-                <label for="jumlah_return">Jumlah Return</label>
+                <label for="jumlah_return">Jumlah Retur</label>
                 <input type="text" class="vertical-spin" id="jumlah-return" name="jumlah_return" required>
 
               </div>
